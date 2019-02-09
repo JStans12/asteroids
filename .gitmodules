@@ -1,0 +1,4 @@
+[submodule "lovetoys"]
+	path = lovetoys
+	url = https://github.com/lovetoys/lovetoys.git
+	branch = master
