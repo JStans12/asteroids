@@ -12,13 +12,15 @@ local Position,
       Physics,
       Sprite,
       Rotation,
-      Animation =
+      Animation,
+      StaticRotation =
       Component.load({
         'position',
         'physics',
         'sprite',
         'rotation',
-        'animation'
+        'animation',
+        'staticRotation'
       })
 
 local function Asteroid()
@@ -27,7 +29,11 @@ local function Asteroid()
     Physics(),
     Sprite(spriteSheet, frames, 1),
     Rotation(0),
-    Animation('normal')
+    Animation('normal'),
+    StaticRotation(
+      math.random(1, 2) == 1 and 'left' or 'right',
+      math.random(1, 10) / 40
+    )
   })
 end
 

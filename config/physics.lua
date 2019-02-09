@@ -1,5 +1,5 @@
 return {
   acceleration = 2,
-  friction = .999,
+  friction = .997,
   maxSpeed = 200
 }

@@ -16,15 +16,17 @@ require('components.Physics')
 require('components.Sprite')
 require('components.Controllable')
 require('components.Rotation')
-require('components.animation')
+require('components.Animation')
+require('components.StaticRotation')
 
 -- entities
 local Player   = require('entities.Player')
 local Asteroid = require('entities.Asteroid')
 
 -- systems
-local MoveSystem = require('systems.MoveSystem')
-local DrawSystem = require('systems.DrawSystem')
+local MoveSystem           = require('systems.MoveSystem')
+local StaticRotationSystem = require('systems.StaticRotationSystem')
+local DrawSystem           = require('systems.DrawSystem')
 
 local engine = Engine()
 
@@ -32,6 +34,7 @@ local keymaps      = require('config.keymaps')
 local InputHandler = require('handlers.InputHandler')
 
 function love.load()
+  math.randomseed(os.time())
   -- starting entities
   local player = Player(keymaps.playerOne)
   local asteroid = Asteroid()
@@ -41,6 +44,7 @@ function love.load()
   engine:addEntity(asteroid)
 
   engine:addSystem(MoveSystem())
+  engine:addSystem(StaticRotationSystem())
   engine:addSystem(DrawSystem(), "draw")
 
   InputHandler:register(player)

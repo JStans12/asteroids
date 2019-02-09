@@ -1,6 +1,6 @@
 local buildEntity = require('helpers.buildEntity')
 
-local spriteSheet = love.graphics.newImage('player.png')
+local spriteSheet = love.graphics.newImage('ship.png')
 
 local frames = {
   rest = love.graphics.newQuad(0, 0, 32, 32, spriteSheet:getDimensions()),
