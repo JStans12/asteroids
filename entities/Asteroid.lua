@@ -1,6 +1,6 @@
 local buildEntity = require('helpers.buildEntity')
 
-local spriteSheet = love.graphics.newImage('asteroids.png')
+local spriteSheet = love.graphics.newImage('space_rocks_sm.png')
 
 local frames = {
   normal = love.graphics.newQuad(0, 0, 32, 32, spriteSheet:getDimensions()),
@@ -13,14 +13,16 @@ local Position,
       Sprite,
       Rotation,
       Animation,
-      StaticRotation =
+      StaticRotation,
+      Collidable =
       Component.load({
         'position',
         'physics',
         'sprite',
         'rotation',
         'animation',
-        'staticRotation'
+        'staticRotation',
+        'collidable'
       })
 
 local function Asteroid()
@@ -33,7 +35,8 @@ local function Asteroid()
     StaticRotation(
       math.random(1, 2) == 1 and 'left' or 'right',
       math.random(1, 10) / 40
-    )
+    ),
+    Collidable({ x = 15, y = 15})
   })
 end
 

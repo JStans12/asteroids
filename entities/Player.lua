@@ -12,7 +12,8 @@ local Position,
       Sprite,
       Controllable,
       Rotation,
-      Animation =
+      Animation,
+      Collidable =
       Component.load({
         'position',
         'physics',
@@ -20,6 +21,7 @@ local Position,
         'controllable',
         'rotation',
         'animation',
+        'collidable'
       })
 
 local function Player(keymap)
@@ -29,7 +31,8 @@ local function Player(keymap)
     Sprite(spriteSheet, frames, 1),
     Controllable(keymap),
     Rotation(0),
-    Animation('rest')
+    Animation('rest'),
+    Collidable({ x = 16, y = 16})
   })
 end
 
