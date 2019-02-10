@@ -10,13 +10,7 @@ local function handleCollision(entity1, entity2)
 end
 
 function CollisionSystem:update()
-  for i = 1, #self.targets do
-    for j = 1, #self.targets - i do
-      if (checkCollision(self.targets[i], self.targets[i+j])) then
-        handleCollision(entity1, entity2)
-      end
-    end
-  end
+  checkCollision(self.targets, handleCollision)
 end
 
 return CollisionSystem

@@ -12,7 +12,7 @@ function DrawSystem:draw()
     local animation = entity:get('animation')
 
     love.graphics.draw(
-      sprite.sprite_sheet,
+      sprite.spriteSheet,
       sprite.frames[animation.state],
       position.x,
       position.y,

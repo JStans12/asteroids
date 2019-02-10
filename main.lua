@@ -9,6 +9,8 @@ love.window.setMode(768, 512, {
 
 -- helpers
 local getInput = require('helpers.getInput')
+local inspect  = require('lib.inspect')
+local hasValue = require('helpers.hasValue')
 
 -- register components
 require('components.Position')
@@ -29,28 +31,35 @@ local MoveSystem           = require('systems.MoveSystem')
 local StaticRotationSystem = require('systems.StaticRotationSystem')
 local CollisionSystem      = require('systems.CollisionSystem')
 local DrawSystem           = require('systems.DrawSystem')
-local HitboxDrawSystem     = require('systems.HitboxDrawSystem')
 
 local engine = Engine()
+
+function Engine:loadAsteroids()
+  require('loaders.loadAsteroids')(self)
+end
 
 local keymaps      = require('config.keymaps')
 local InputHandler = require('handlers.InputHandler')
 
-function love.load()
+function love.load(args)
   math.randomseed(os.time())
   -- starting entities
   local player = Player(keymaps.playerOne)
 
   -- setup engine
   engine:addEntity(player)
-  require('loaders.loadAsteroids')(engine)
+  engine:loadAsteroids()
   engine:addSystem(MoveSystem())
   engine:addSystem(StaticRotationSystem())
   engine:addSystem(CollisionSystem())
   engine:addSystem(DrawSystem(), 'draw')
-  engine:addSystem(HitboxDrawSystem(), 'draw')
 
   InputHandler:register(player)
+
+  if hasValue(args, "hitbox") then
+    local HitboxDrawSystem = require('systems.HitboxDrawSystem')
+    engine:addSystem(HitboxDrawSystem(), 'draw')
+  end
 end
 
 function love.update(dt)

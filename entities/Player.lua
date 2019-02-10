@@ -28,7 +28,7 @@ local function Player(keymap)
   return buildEntity({
     Position(384, 256),
     Physics(),
-    Sprite(spriteSheet, frames, 1),
+    Sprite(spriteSheet, frames),
     Controllable(keymap),
     Rotation(0),
     Animation('rest'),
