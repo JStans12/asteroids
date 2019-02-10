@@ -18,7 +18,6 @@ require('components.Physics')
 require('components.Sprite')
 require('components.Controllable')
 require('components.Rotation')
-require('components.Animation')
 require('components.StaticRotation')
 require('components.Hitbox')
 

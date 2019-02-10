@@ -12,7 +12,6 @@ local Position,
       Sprite,
       Controllable,
       Rotation,
-      Animation,
       Hitbox =
       Component.load({
         'position',
@@ -20,7 +19,6 @@ local Position,
         'sprite',
         'controllable',
         'rotation',
-        'animation',
         'hitbox'
       })
 
@@ -28,10 +26,9 @@ local function Player(keymap)
   return buildEntity({
     Position(384, 256),
     Physics(),
-    Sprite(spriteSheet, frames),
+    Sprite(spriteSheet, frames, "rest"),
     Controllable(keymap),
     Rotation(0),
-    Animation('rest'),
     Hitbox(16, 16)
   })
 end

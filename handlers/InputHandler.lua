@@ -30,7 +30,7 @@ function InputHandler:perform(downKeys)
 
     local rotation  = entity:get('rotation')
     local physics   = entity:get('physics')
-    local animation = entity:get('animation')
+    local sprite    = entity:get('sprite')
 
     -- Acceleration
     if pressedKeys[keymap['up']] then
@@ -51,9 +51,9 @@ function InputHandler:perform(downKeys)
         if physics.vy < -maxSpeedY then physics.vy = -maxSpeedY end
       end
 
-      animation.state = 'thrust'
+      sprite.currentFrame = 'thrust'
     else
-      animation.state = 'rest'
+      sprite.currentFrame = 'rest'
     end
 
     -- Friction

@@ -1,7 +1,7 @@
 local DrawSystem = class('DrawSystem', System)
 
 function DrawSystem:requires()
-  return { 'position', 'sprite', 'rotation', 'animation' }
+  return { 'position', 'sprite', 'rotation' }
 end
 
 function DrawSystem:draw()
@@ -9,11 +9,10 @@ function DrawSystem:draw()
     local sprite = entity:get('sprite')
     local position = entity:get('position')
     local rotation = entity:get('rotation')
-    local animation = entity:get('animation')
 
     love.graphics.draw(
       sprite.spriteSheet,
-      sprite.frames[animation.state],
+      sprite.frames[sprite.currentFrame],
       position.x,
       position.y,
       math.rad(rotation.direction),
