@@ -18,7 +18,7 @@ require('components.Controllable')
 require('components.Rotation')
 require('components.Animation')
 require('components.StaticRotation')
-require('components.Collidable')
+require('components.Hitbox')
 
 -- entities
 local Player   = require('entities.Player')

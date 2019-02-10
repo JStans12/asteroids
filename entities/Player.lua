@@ -13,7 +13,7 @@ local Position,
       Controllable,
       Rotation,
       Animation,
-      Collidable =
+      Hitbox =
       Component.load({
         'position',
         'physics',
@@ -21,7 +21,7 @@ local Position,
         'controllable',
         'rotation',
         'animation',
-        'collidable'
+        'hitbox'
       })
 
 local function Player(keymap)
@@ -32,7 +32,7 @@ local function Player(keymap)
     Controllable(keymap),
     Rotation(0),
     Animation('rest'),
-    Collidable({ x = 16, y = 16})
+    Hitbox(16, 16)
   })
 end
 

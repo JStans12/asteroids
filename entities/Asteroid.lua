@@ -14,7 +14,7 @@ local Position,
       Rotation,
       Animation,
       StaticRotation,
-      Collidable =
+      Hitbox =
       Component.load({
         'position',
         'physics',
@@ -22,7 +22,7 @@ local Position,
         'rotation',
         'animation',
         'staticRotation',
-        'collidable'
+        'hitbox'
       })
 
 local function Asteroid()
@@ -36,7 +36,7 @@ local function Asteroid()
       math.random(1, 2) == 1 and 'left' or 'right',
       math.random(1, 10) / 40
     ),
-    Collidable({ x = 15, y = 15})
+    Hitbox(15, 15)
   })
 end
 

@@ -1,27 +1,22 @@
 local CollisionSystem = class('CollisionSystem', System)
-local allPairs = require('helpers.allPairs')
+local checkCollision  = require('helpers.checkCollision')
 
 function CollisionSystem:requires()
-  return { 'position', 'collidable' }
+  return { 'position', 'hitbox' }
+end
+
+local function handleCollision(entity1, entity2)
+  print(true)
 end
 
 function CollisionSystem:update()
-  allPairs(checkCollision, self.targets)
-end
-
-function checkCollision(entity1, entity2)
-  local position1 = entity1:get('position')
-  local position2 = entity2:get('position')
-  local hitbox1 = entity1:get('collidable').hitbox
-  local hitbox2 = entity2:get('collidable').hitbox
-
-  local collision =
-    position1.x - hitbox1.x < (position2.x - hitbox2.x)+(hitbox2.x * 2) and
-    position2.x - hitbox2.x < (position1.x - hitbox1.x)+(hitbox1.x * 2) and
-    position1.y - hitbox1.y < (position2.y - hitbox2.y)+(hitbox2.y * 2) and
-    position2.y - hitbox2.y < (position1.y - hitbox1.y)+(hitbox1.y * 2)
-
-  print(collision)
+  for i = 1, #self.targets do
+    for j = 1, #self.targets - i do
+      if (checkCollision(self.targets[i], self.targets[i+j])) then
+        handleCollision(entity1, entity2)
+      end
+    end
+  end
 end
 
 return CollisionSystem

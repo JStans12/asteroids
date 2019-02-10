@@ -1,13 +1,13 @@
 local HitboxDrawSystem = class('HitboxDrawSystem', System)
 
 function HitboxDrawSystem:requires()
-  return { 'position', 'collidable' }
+  return { 'position', 'hitbox' }
 end
 
 function HitboxDrawSystem:draw()
   for _, entity in pairs(self.targets) do
     local position = entity:get('position')
-    local hitbox = entity:get('collidable').hitbox
+    local hitbox = entity:get('hitbox')
 
     love.graphics.rectangle(
       "line",
