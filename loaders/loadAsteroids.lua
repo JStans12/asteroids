@@ -22,8 +22,8 @@ local function load(engine, size, amount)
 end
 
 local function loadAsteroids(engine)
-  load(engine, "large", 3)
-  load(engine, "medium", 3)
+  load(engine, "large", 8)
+  load(engine, "medium", 6)
   load(engine,"small", 3)
 end
 

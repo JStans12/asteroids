@@ -91,7 +91,7 @@ local function Asteroid(size)
       math.random(1, 2) == 1 and 'left' or 'right',
       math.random(1, 10) / 40
     ),
-    Hitbox(hitbox.radius)
+    Hitbox(hitbox.radius, true)
   })
 end
 
