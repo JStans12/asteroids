@@ -1,4 +1,4 @@
 local Sprite = Component.create(
   'sprite',
-  { 'spriteSheet', 'frames', 'currentFrame' }
+  { 'spriteSheet', 'frames', 'currentFrame', 'size' }
 )

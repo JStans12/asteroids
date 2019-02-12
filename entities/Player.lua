@@ -26,10 +26,10 @@ local function Player(keymap)
   return buildEntity({
     Position(384, 256),
     Physics(),
-    Sprite(spriteSheet, frames, "rest"),
+    Sprite(spriteSheet, frames, "rest", { x = 32, y = 32 }),
     Controllable(keymap),
     Rotation(0),
-    Hitbox(16, 16)
+    Hitbox(15)
   })
 end
 

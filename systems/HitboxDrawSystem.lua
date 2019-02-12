@@ -9,12 +9,11 @@ function HitboxDrawSystem:draw()
     local position = entity:get('position')
     local hitbox = entity:get('hitbox')
 
-    love.graphics.rectangle(
+    love.graphics.circle(
       "line",
-      position.x - hitbox.x,
-      position.y - hitbox.y,
-      hitbox.x * 2,
-      hitbox.y * 2
+      position.x,
+      position.y,
+      hitbox.radius
     )
   end
 end

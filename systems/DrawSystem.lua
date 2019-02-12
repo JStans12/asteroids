@@ -18,8 +18,8 @@ function DrawSystem:draw()
       math.rad(rotation.direction),
       1,
       1,
-      16,
-      16
+      sprite.size.x / 2,
+      sprite.size.y / 2
     )
   end
 end

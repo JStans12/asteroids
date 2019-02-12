@@ -3,8 +3,8 @@ local checkCollision = require('helpers.checkCollision')
 
 local function load(engine, size, amount)
   for i = 1, amount do
-    local collision = false
     repeat
+      local collision = false
 
       local asteroid = Asteroid(size)
       engine:addEntity(asteroid)
@@ -13,16 +13,18 @@ local function load(engine, size, amount)
 
       local function handleCollision()
         engine:removeEntity(asteroid)
-        return true
+        collision = true
       end
 
-      collision = checkCollision(entities, handleCollision, false)
+      checkCollision(entities, handleCollision)
     until (collision == false)
   end
 end
 
 local function loadAsteroids(engine)
-  load(engine, "small", 6)
+  load(engine, "large", 3)
+  load(engine, "medium", 3)
+  load(engine,"small", 3)
 end
 
 return loadAsteroids
