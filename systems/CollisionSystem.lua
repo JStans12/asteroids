@@ -5,7 +5,7 @@ function CollisionSystem:requires()
   return { 'position', 'hitbox' }
 end
 
-local function handleCollision(entity1, entity2)
+local function handleCollision(entity1, entity2, collisionPoint)
   print(true)
 end
 
