@@ -1,5 +1,6 @@
 local Set = require('helpers.Set')
 local physicsConfig = require('config.physics')
+local Bullet = require('entities.Bullet')
 
 local InputHandler = {
   targets = {}
@@ -9,17 +10,21 @@ function InputHandler:register(entity)
   table.insert(self.targets, entity)
 end
 
-function InputHandler:perform(downKeys)
+function InputHandler:perform(downKeys, engine)
   for _, entity in pairs(self.targets) do
+    local controllable = entity:get('controllable')
+
     local keymap = {}
-    keymap['up'] = entity:get('controllable').keymap['up']
-    keymap['left'] = entity:get('controllable').keymap['left']
-    keymap['right'] = entity:get('controllable').keymap['right']
+    keymap['up'] = controllable.keymap['up']
+    keymap['left'] = controllable.keymap['left']
+    keymap['right'] = controllable.keymap['right']
+    keymap['shoot'] = controllable.keymap['shoot']
 
     local entityKeys = Set {
       keymap['up'],
       keymap['left'],
-      keymap['right']
+      keymap['right'],
+      keymap['shoot']
     }
 
     local pressedKeys = {}
@@ -65,6 +70,16 @@ function InputHandler:perform(downKeys)
       rotation.direction = rotation.direction - 1
     elseif pressedKeys[keymap['right']] then
       rotation.direction = rotation.direction + 1
+    end
+
+    if controllable.shootCooldown == 0 then
+      if pressedKeys[keymap['shoot']] then
+        local bullet = Bullet(entity)
+        engine:addEntity(bullet)
+        controllable.shootCooldown = controllable.shootCooldown + 70
+      end
+    else
+      controllable.shootCooldown = controllable.shootCooldown - 1
     end
   end
 end

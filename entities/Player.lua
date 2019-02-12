@@ -27,7 +27,7 @@ local function Player(keymap)
     Position(384, 256),
     Physics(),
     Sprite(spriteSheet, frames, "rest", { x = 32, y = 32 }),
-    Controllable(keymap),
+    Controllable(keymap, 0),
     Rotation(0),
     Hitbox(15, false)
   })

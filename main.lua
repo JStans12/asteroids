@@ -62,7 +62,7 @@ function love.load(args)
 end
 
 function love.update(dt)
-  InputHandler:perform(getInput())
+  InputHandler:perform(getInput(), engine)
   engine:update(dt)
 end
 

@@ -1,4 +1,5 @@
 local Rotation = Component.create(
   'rotation',
-  { 'direction' }
+  { 'direction' },
+  { direction = 0 }
 )
