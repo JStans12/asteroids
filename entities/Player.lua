@@ -29,7 +29,7 @@ local function Player(keymap)
     Sprite(spriteSheet, frames, "rest", { x = 32, y = 32 }),
     Controllable(keymap, 0),
     Rotation(0),
-    Hitbox(15, false)
+    Hitbox(15, false, 101)
   })
 end
 

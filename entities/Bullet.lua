@@ -9,12 +9,14 @@ local Position,
       Physics,
       Sprite,
       Hitbox,
-      Rotation = Component.load({
+      Rotation,
+      Health = Component.load({
         'position',
         'physics',
         'sprite',
         'hitbox',
-        'rotation'
+        'rotation',
+        'health'
       })
 
 local function Bullet(player)
@@ -28,7 +30,9 @@ local function Bullet(player)
     Position(playerPosition.x, playerPosition.y),
     Physics(0, 0, speedX, speedY),
     Sprite(spriteSheet, frames, 1, { x = 4, y = 4 }),
-    Rotation()
+    Rotation(),
+    Hitbox(2, false, 100),
+    Health(1)
   })
 end
 

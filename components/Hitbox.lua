@@ -1,4 +1,4 @@
 local Hitbox = Component.create(
   'hitbox',
-  { 'radius', 'bounce' }
+  { 'radius', 'bounce', 'priority' }
 )

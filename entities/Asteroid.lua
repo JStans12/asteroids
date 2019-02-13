@@ -23,14 +23,16 @@ local Position,
       Sprite,
       Rotation,
       StaticRotation,
-      Hitbox =
+      Hitbox,
+      Health =
       Component.load({
         'position',
         'physics',
         'sprite',
         'rotation',
         'staticRotation',
-        'hitbox'
+        'hitbox',
+        'health'
       })
 
 local function configureSize(size)
@@ -44,7 +46,8 @@ local function configureSize(size)
     }
     local size = { x = 128, y = 128 }
     local rotationSpeed = math.random(1, 10) / 80
-    return spriteSheet, frames, currentFrame, hitbox, position, size, rotationSpeed
+    local health = 3
+    return spriteSheet, frames, currentFrame, hitbox, position, size, rotationSpeed, health
   elseif size == "medium" then
     local spriteSheet = mediumSpriteSheet
     local frames      = mediumFrames
@@ -55,7 +58,8 @@ local function configureSize(size)
     }
     local size = { x = 64, y = 64 }
     local rotationSpeed = math.random(1, 10) / 60
-    return spriteSheet, frames, currentFrame, hitbox, position, size, rotationSpeed
+    local health = 2
+    return spriteSheet, frames, currentFrame, hitbox, position, size, rotationSpeed, health
   elseif size == "small" then
     local spriteSheet = smallSpriteSheet
     local frames      = smallFrames
@@ -66,7 +70,8 @@ local function configureSize(size)
     }
     local size = { x = 32, y = 32 }
     local rotationSpeed = math.random(1, 10) / 40
-    return spriteSheet, frames, currentFrame, hitbox, position, size, rotationSpeed
+    local health = 1
+    return spriteSheet, frames, currentFrame, hitbox, position, size, rotationSpeed, health
   end
 end
 
@@ -77,7 +82,8 @@ local function Asteroid(size)
         hitbox,
         position,
         size,
-        rotationSpeed =
+        rotationSpeed,
+        health =
         configureSize(size)
 
   return buildEntity({
@@ -89,7 +95,8 @@ local function Asteroid(size)
       math.random(1, 2) == 1 and 'left' or 'right',
       rotationSpeed
     ),
-    Hitbox(hitbox.radius, true)
+    Hitbox(hitbox.radius, true, 2),
+    Health(health)
   })
 end
 

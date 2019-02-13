@@ -26,16 +26,34 @@ local function bounce(entity1, entity2)
   physics2.vy = newVY2
 end
 
+local function determineHealth(entity1, entity2)
+  health1 = entity1:get('health')
+  health2 = entity2:get('health')
+  if health1 and health2 then
+    local priority1 = entity1:get('hitbox').priority
+    local priority2 = entity2:get('hitbox').priority
+    if priority1 == priority2 then
+    elseif priority1 > priority2 then
+      health2.value = health2.value - 1
+    else
+      health1.value = health1.value - 1
+    end
+  end
+end
+
 local function handleCollision(entity1, entity2, collisionPoint)
   local hitbox1 = entity1:get('hitbox')
   local hitbox2 = entity2:get('hitbox')
 
   if (hitbox1.bounce and hitbox2.bounce) then
     bounce(entity1, entity2)
+  else
+    determineHealth(entity1, entity2)
   end
 end
 
 function CollisionSystem:update()
+  print('collide', #self.targets)
   checkCollision(self.targets, handleCollision)
 end
 

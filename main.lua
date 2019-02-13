@@ -20,6 +20,7 @@ require('components.Controllable')
 require('components.Rotation')
 require('components.StaticRotation')
 require('components.Hitbox')
+require('components.Health')
 
 -- entities
 local Player   = require('entities.Player')
@@ -29,9 +30,10 @@ local Asteroid = require('entities.Asteroid')
 local MoveSystem           = require('systems.MoveSystem')
 local StaticRotationSystem = require('systems.StaticRotationSystem')
 local CollisionSystem      = require('systems.CollisionSystem')
+local HealthSystem         = require('systems.HealthSystem')
 local DrawSystem           = require('systems.DrawSystem')
 
-local engine = Engine()
+engine = Engine()
 
 function Engine:loadAsteroids()
   require('loaders.loadAsteroids')(self)
@@ -51,6 +53,7 @@ function love.load(args)
   engine:addSystem(MoveSystem())
   engine:addSystem(StaticRotationSystem())
   engine:addSystem(CollisionSystem())
+  engine:addSystem(HealthSystem())
   engine:addSystem(DrawSystem(), 'draw')
 
   InputHandler:register(player)
@@ -62,6 +65,7 @@ function love.load(args)
 end
 
 function love.update(dt)
+  print("engine", engine:getEntityCount('hitbox'))
   InputHandler:perform(getInput(), engine)
   engine:update(dt)
 end
