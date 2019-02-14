@@ -10,7 +10,7 @@ function InputHandler:register(entity)
   table.insert(self.targets, entity)
 end
 
-function InputHandler:perform(downKeys, engine)
+function InputHandler:perform(downKeys)
   for _, entity in pairs(self.targets) do
     local controllable = entity:get('controllable')
 

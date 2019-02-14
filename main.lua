@@ -35,10 +35,6 @@ local DrawSystem           = require('systems.DrawSystem')
 
 engine = Engine()
 
-function Engine:loadAsteroids()
-  require('loaders.loadAsteroids')(self)
-end
-
 local keymaps      = require('config.keymaps')
 local InputHandler = require('handlers.InputHandler')
 
@@ -49,7 +45,7 @@ function love.load(args)
 
   -- setup engine
   engine:addEntity(player)
-  engine:loadAsteroids()
+  require('loaders.loadAsteroids')()
   engine:addSystem(MoveSystem())
   engine:addSystem(StaticRotationSystem())
   engine:addSystem(CollisionSystem())
@@ -66,7 +62,7 @@ end
 
 function love.update(dt)
   print("engine", engine:getEntityCount('hitbox'))
-  InputHandler:perform(getInput(), engine)
+  InputHandler:perform(getInput())
   engine:update(dt)
 end
 

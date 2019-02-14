@@ -9,7 +9,7 @@ function HealthSystem:update()
   for _, entity in pairs(self.targets) do
     local health = entity:get('health')
     if health.value <= 0 then
-      -- engine:removeEntity(entity, true)
+      engine:removeEntity(entity, true)
     end
   end
 end
