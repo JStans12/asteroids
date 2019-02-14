@@ -5,7 +5,6 @@ function HealthSystem:requires()
 end
 
 function HealthSystem:update()
-  print('health', #self.targets)
   for _, entity in pairs(self.targets) do
     local health = entity:get('health')
     if health.value <= 0 then

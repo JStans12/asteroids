@@ -44,13 +44,14 @@ function love.load(args)
   local player = Player(keymaps.playerOne)
 
   -- setup engine
-  engine:addEntity(player)
-  require('loaders.loadAsteroids')()
   engine:addSystem(MoveSystem())
   engine:addSystem(StaticRotationSystem())
   engine:addSystem(CollisionSystem())
   engine:addSystem(HealthSystem())
   engine:addSystem(DrawSystem(), 'draw')
+
+  engine:addEntity(player)
+  require('loaders.loadAsteroids')()
 
   InputHandler:register(player)
 
@@ -61,7 +62,6 @@ function love.load(args)
 end
 
 function love.update(dt)
-  print("engine", engine:getEntityCount('hitbox'))
   InputHandler:perform(getInput())
   engine:update(dt)
 end

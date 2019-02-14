@@ -16,12 +16,13 @@ local function findCollisionPoint(entity1, entity2)
 end
 
 local function checkCollision(entities, handleCollision)
-  for i = 1, #entities do
-    for j = 1, #entities - i do
-      if entities[i] and entities[i+j] then
-        local collisionPoint = findCollisionPoint(entities[i], entities[i+j])
+  for i, entity1 in pairs(entities) do
+    for j, entity2 in pairs(entities) do
+      if i >= j then
+      else
+        local collisionPoint = findCollisionPoint(entity1, entity2)
         if collisionPoint then
-          handleCollision(entities[i], entities[i+j], collisionPoint)
+          handleCollision(entity1, entity2, collisionPoint)
         end
       end
     end

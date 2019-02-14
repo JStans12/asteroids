@@ -33,6 +33,8 @@ local function determineHealth(entity1, entity2)
     local priority1 = entity1:get('hitbox').priority
     local priority2 = entity2:get('hitbox').priority
     if priority1 == priority2 then
+      health2.value = health2.value - 1
+      health1.value = health1.value - 1
     elseif priority1 > priority2 then
       health2.value = health2.value - 1
     else
@@ -53,7 +55,6 @@ local function handleCollision(entity1, entity2, collisionPoint)
 end
 
 function CollisionSystem:update()
-  print('collide', #self.targets)
   checkCollision(self.targets, handleCollision)
 end
 

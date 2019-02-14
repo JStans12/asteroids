@@ -31,7 +31,7 @@ local function Bullet(player)
     Physics(0, 0, speedX, speedY),
     Sprite(spriteSheet, frames, 1, { x = 4, y = 4 }),
     Rotation(),
-    Hitbox(2, false, 100),
+    Hitbox(2, false, 2),
     Health(1)
   })
 end
