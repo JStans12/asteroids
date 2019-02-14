@@ -21,6 +21,7 @@ require('components.Rotation')
 require('components.StaticRotation')
 require('components.Hitbox')
 require('components.Health')
+require('components.Animation')
 
 -- entities
 local Player   = require('entities.Player')
@@ -31,6 +32,7 @@ local MoveSystem           = require('systems.MoveSystem')
 local StaticRotationSystem = require('systems.StaticRotationSystem')
 local CollisionSystem      = require('systems.CollisionSystem')
 local HealthSystem         = require('systems.HealthSystem')
+local AnimationSystem      = require('systems.AnimationSystem')
 local DrawSystem           = require('systems.DrawSystem')
 
 engine = Engine()
@@ -48,6 +50,7 @@ function love.load(args)
   engine:addSystem(StaticRotationSystem())
   engine:addSystem(CollisionSystem())
   engine:addSystem(HealthSystem())
+  engine:addSystem(AnimationSystem())
   engine:addSystem(DrawSystem(), 'draw')
 
   engine:addEntity(player)

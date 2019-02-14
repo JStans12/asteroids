@@ -51,6 +51,14 @@ local function handleCollision(entity1, entity2, collisionPoint)
     bounce(entity1, entity2)
   else
     determineHealth(entity1, entity2)
+    for _, entity in pairs({ entity1, entity2 }) do
+      if entity:has('animation') then
+        local animation = entity:get('animation')
+        animation.currentSequence = 'hit'
+        animation.currentFrame = 1
+        animation.timeSinceFrameChange = 0
+      end
+    end
   end
 end
 

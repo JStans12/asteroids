@@ -2,19 +2,19 @@ local buildEntity = require('helpers.buildEntity')
 
 local largeSpriteSheet = love.graphics.newImage('asteroid_lg_1.png')
 local largeFrames = {
-  normal = love.graphics.newQuad(0, 0, 128, 128, largeSpriteSheet:getDimensions()),
+  rest   = love.graphics.newQuad(0, 0, 128, 128, largeSpriteSheet:getDimensions()),
   hit    = love.graphics.newQuad(128, 0, 128, 128, largeSpriteSheet:getDimensions()),
 }
 
 local mediumSpriteSheet = love.graphics.newImage('asteroid_md_1.png')
 local mediumFrames = {
-  normal = love.graphics.newQuad(0, 0, 64, 64, mediumSpriteSheet:getDimensions()),
+  rest   = love.graphics.newQuad(0, 0, 64, 64, mediumSpriteSheet:getDimensions()),
   hit    = love.graphics.newQuad(64, 0, 64, 64, mediumSpriteSheet:getDimensions()),
 }
 
 local smallSpriteSheet = love.graphics.newImage('asteroid_sm_1.png')
 local smallFrames = {
-  normal = love.graphics.newQuad(0, 0, 32, 32, smallSpriteSheet:getDimensions()),
+  rest   = love.graphics.newQuad(0, 0, 32, 32, smallSpriteSheet:getDimensions()),
   hit    = love.graphics.newQuad(32, 0, 32, 32, smallSpriteSheet:getDimensions()),
 }
 
@@ -24,7 +24,8 @@ local Position,
       Rotation,
       StaticRotation,
       Hitbox,
-      Health =
+      Health,
+      Animation =
       Component.load({
         'position',
         'physics',
@@ -32,7 +33,8 @@ local Position,
         'rotation',
         'staticRotation',
         'hitbox',
-        'health'
+        'health',
+        'animation'
       })
 
 local function configureSize(size)
@@ -89,14 +91,17 @@ local function Asteroid(size)
   return buildEntity({
     Position(position.x, position.y),
     Physics(0, 0, math.random(-10, 10), math.random(-10, 10)),
-    Sprite(spriteSheet, frames, "normal", size),
+    Sprite(spriteSheet, frames, 'rest', size),
     Rotation(0),
     StaticRotation(
       math.random(1, 2) == 1 and 'left' or 'right',
       rotationSpeed
     ),
     Hitbox(hitbox.radius, true, 2),
-    Health(health)
+    Health(health),
+    Animation(
+      { hit = { frames = { 'hit' }, frameDelay = .15 } }
+    )
   })
 end
 
