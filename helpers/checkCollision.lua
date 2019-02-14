@@ -16,16 +16,15 @@ local function findCollisionPoint(entity1, entity2)
 end
 
 local function checkCollision(entities, handleCollision)
+  local checkable = {}
   for i, entity1 in pairs(entities) do
-    for j, entity2 in pairs(entities) do
-      if i >= j then
-      else
-        local collisionPoint = findCollisionPoint(entity1, entity2)
-        if collisionPoint then
-          handleCollision(entity1, entity2, collisionPoint)
-        end
+    for j, entity2 in pairs(checkable) do
+      local collisionPoint = findCollisionPoint(entity1, entity2)
+      if collisionPoint then
+        handleCollision(entity1, entity2, collisionPoint)
       end
     end
+    table.insert(checkable, entity1)
   end
 end
 
