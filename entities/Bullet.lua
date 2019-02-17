@@ -1,9 +1,5 @@
 local buildEntity = require('helpers/buildEntity')
-
-local spriteSheet = love.graphics.newImage('bullet.png')
-local frames = {
-  love.graphics.newQuad(0, 0, 4, 4, spriteSheet:getDimensions())
-}
+local buildSpriteSheet = require('helpers.buildSpriteSheet')
 
 local Position,
       Physics,
@@ -29,7 +25,16 @@ local function Bullet(player)
   return buildEntity({
     Position(playerPosition.x, playerPosition.y),
     Physics(0, 0, speedX, speedY),
-    Sprite(spriteSheet, frames, 1, { x = 4, y = 4 }),
+    Sprite(buildSpriteSheet({
+      img = 'bullet.png',
+      dimensions = {
+        rows    = 1,
+        columns = 1,
+        height  = 4,
+        width   = 4
+      },
+      currentFrame = 1
+    })),
     Rotation(),
     Hitbox(2, false, 2),
     Health(1)

@@ -1,27 +1,42 @@
 local AnimationSystem = class('AnimationSystem', System)
+local stopAnimation = require('helpers.stopAnimation')
 
 function AnimationSystem:requires()
   return { 'animation', 'sprite' }
 end
 
+local function incrementFrames(animation)
+  animation.timeSinceFrameChange = 0
+  animation.currentFrame = animation.currentFrame + 1
+end
+
+local function animate(entity, dt)
+  local sprite = entity:get('sprite')
+  local animation = entity:get('animation')
+
+  local currentSequence = animation.sequences[animation.currentSequence]
+  if animation.timeSinceFrameChange > currentSequence.frameDelay then
+    incrementFrames(animation)
+  else
+    animation.timeSinceFrameChange = animation.timeSinceFrameChange + dt
+  end
+  local currentFrameName = currentSequence.frames[animation.currentFrame]
+  if currentFrameName then
+    sprite.currentFrame = currentFrameName
+  else
+    if currentSequence.repeatable then
+      animation.currentFrame = 1
+    else
+      stopAnimation(entity)
+    end
+  end
+end
+
 function AnimationSystem:update(dt)
   for _, entity in pairs(self.targets) do
     local animation = entity:get('animation')
-    local sprite = entity:get('sprite')
     if animation.currentSequence then
-      if animation.timeSinceFrameChange > animation.sequences[animation.currentSequence].frameDelay then
-        animation.timeSinceFrameChange = animation.timeSinceFrameChange - dt
-        animation.currentFrame = animation.currentFrame + 1
-      else
-        animation.timeSinceFrameChange = animation.timeSinceFrameChange + dt
-      end
-      sprite.currentFrame = animation.sequences[animation.currentSequence].frames[animation.currentFrame]
-      if sprite.currentFrame == nil then
-        sprite.currentFrame = 'rest'
-        animation.currentSequence = nil
-        animation.timeSinceFrameChange = nil
-        animation.currentFrame = nil
-      end
+      animate(entity, dt)
     end
   end
 end

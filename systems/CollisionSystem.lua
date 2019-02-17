@@ -1,5 +1,6 @@
 local CollisionSystem = class('CollisionSystem', System)
 local checkCollision  = require('helpers.checkCollision')
+local startOrContinueAnimation = require('helpers.startOrContinueAnimation')
 
 function CollisionSystem:requires()
   return { 'position', 'hitbox' }
@@ -46,17 +47,15 @@ end
 local function handleCollision(entity1, entity2, collisionPoint)
   local hitbox1 = entity1:get('hitbox')
   local hitbox2 = entity2:get('hitbox')
-
   if (hitbox1.bounce and hitbox2.bounce) then
     bounce(entity1, entity2)
   else
     determineHealth(entity1, entity2)
     for _, entity in pairs({ entity1, entity2 }) do
       if entity:has('animation') then
-        local animation = entity:get('animation')
-        animation.currentSequence = 'hit'
-        animation.currentFrame = 1
-        animation.timeSinceFrameChange = 0
+        if entity:get('animation').sequences.hit then
+          startOrContinueAnimation(entity, 'hit')
+        end
       end
     end
   end

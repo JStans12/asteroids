@@ -1,35 +1,43 @@
-local buildEntity = require('helpers.buildEntity')
-
-local spriteSheet = love.graphics.newImage('ship.png')
-
-local frames = {
-  rest = love.graphics.newQuad(0, 0, 32, 32, spriteSheet:getDimensions()),
-  thrust = love.graphics.newQuad(32, 0, 32, 32, spriteSheet:getDimensions())
-}
+local buildEntity      = require('helpers.buildEntity')
+local buildSpriteSheet = require('helpers.buildSpriteSheet')
 
 local Position,
       Physics,
       Sprite,
       Controllable,
       Rotation,
-      Hitbox =
+      Hitbox,
+      Animation =
       Component.load({
         'position',
         'physics',
         'sprite',
         'controllable',
         'rotation',
-        'hitbox'
+        'hitbox',
+        'animation'
       })
 
 local function Player(keymap)
   return buildEntity({
     Position(384, 256),
     Physics(),
-    Sprite(spriteSheet, frames, "rest", { x = 32, y = 32 }),
+    Sprite(buildSpriteSheet({
+      img = 'ship.png',
+      dimensions = {
+        rows      = 1,
+        columns   = 3,
+        height    = 32,
+        width     = 32
+      },
+      currentFrame = 1
+    })),
     Controllable(keymap, 0),
     Rotation(0),
-    Hitbox(15, false, 101)
+    Hitbox(15, false, 101),
+    Animation(
+      { thrust = { frames = { 2, 3 }, frameDelay = .05, repeatable = true } }
+    )
   })
 end
 

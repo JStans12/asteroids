@@ -1,6 +1,8 @@
 local Set = require('helpers.Set')
 local physicsConfig = require('config.physics')
 local Bullet = require('entities.Bullet')
+local startOrContinueAnimation = require('helpers.startOrContinueAnimation')
+local stopAnimation = require('helpers.stopAnimation')
 
 local InputHandler = {
   targets = {}
@@ -35,7 +37,7 @@ function InputHandler:perform(downKeys)
 
     local rotation  = entity:get('rotation')
     local physics   = entity:get('physics')
-    local sprite    = entity:get('sprite')
+    local Animation = entity:get('animation')
 
     -- Acceleration
     if pressedKeys[keymap['up']] then
@@ -56,9 +58,9 @@ function InputHandler:perform(downKeys)
         if physics.vy < -maxSpeedY then physics.vy = -maxSpeedY end
       end
 
-      sprite.currentFrame = 'thrust'
+      startOrContinueAnimation(entity, 'thrust')
     else
-      sprite.currentFrame = 'rest'
+      stopAnimation(entity)
     end
 
     -- Friction
