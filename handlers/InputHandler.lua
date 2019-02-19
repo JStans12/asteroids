@@ -78,7 +78,7 @@ function InputHandler:perform(downKeys)
       if pressedKeys[keymap['shoot']] then
         local bullet = Bullet(entity)
         engine:addEntity(bullet)
-        controllable.shootCooldown = controllable.shootCooldown + 70
+        controllable.shootCooldown = controllable.shootCooldown + 60
       end
     else
       controllable.shootCooldown = controllable.shootCooldown - 1

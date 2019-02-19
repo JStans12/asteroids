@@ -1,5 +1,5 @@
 local buildEntity = require('helpers/buildEntity')
-local buildSpriteSheet = require('helpers.buildSpriteSheet')
+local buildSprite = require('helpers.buildSprite')
 
 local Position,
       Physics,
@@ -22,19 +22,21 @@ local function Bullet(player)
   local speedX = math.sin(math.rad(playerRotation.direction)) * 850
   local speedY = -math.cos(math.rad(playerRotation.direction)) * 850
 
+  local sprite = buildSprite({
+    spriteSheet = 'bullet.png',
+    dimensions = {
+      rows    = 1,
+      columns = 1,
+      height  = 4,
+      width   = 4
+    },
+    currentFrame = 1
+  })
+
   return buildEntity({
     Position(playerPosition.x, playerPosition.y),
     Physics(0, 0, speedX, speedY),
-    Sprite(buildSpriteSheet({
-      img = 'bullet.png',
-      dimensions = {
-        rows    = 1,
-        columns = 1,
-        height  = 4,
-        width   = 4
-      },
-      currentFrame = 1
-    })),
+    Sprite(sprite.spriteSheet, sprite.frames, sprite.currentFrame, sprite.size),
     Rotation(),
     Hitbox(2, false, 2),
     Health(1)

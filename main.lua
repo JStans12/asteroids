@@ -7,9 +7,13 @@ love.window.setMode(768, 512, {
   highdpi = true
 })
 
+-- camera
+local Camera = require('lib.hump.camera')
+camera = Camera(0, 0)
+
 -- helpers
+inspect  = require('lib.inspect')
 local getInput = require('helpers.getInput')
-local inspect  = require('lib.inspect')
 local hasValue = require('helpers.hasValue')
 
 -- register components
@@ -22,6 +26,8 @@ require('components.StaticRotation')
 require('components.Hitbox')
 require('components.Health')
 require('components.Animation')
+require('components.CameraFollow')
+require('components.OffMap')
 
 -- entities
 local Player   = require('entities.Player')
@@ -34,6 +40,8 @@ local CollisionSystem      = require('systems.CollisionSystem')
 local HealthSystem         = require('systems.HealthSystem')
 local AnimationSystem      = require('systems.AnimationSystem')
 local DrawSystem           = require('systems.DrawSystem')
+local CameraSystem         = require('systems.CameraSystem')
+local OffMapSystem         = require('systems.OffMapSystem')
 
 engine = Engine()
 
@@ -42,8 +50,11 @@ local InputHandler = require('handlers.InputHandler')
 
 function love.load(args)
   math.randomseed(os.time())
+
   -- starting entities
   local player = Player(keymaps.playerOne)
+  local playerPosition = player:get('position')
+  camera:lookAt(playerPosition.x, playerPosition.y)
 
   -- setup engine
   engine:addSystem(MoveSystem())
@@ -51,6 +62,8 @@ function love.load(args)
   engine:addSystem(CollisionSystem())
   engine:addSystem(HealthSystem())
   engine:addSystem(AnimationSystem())
+  engine:addSystem(CameraSystem())
+  engine:addSystem(OffMapSystem())
   engine:addSystem(DrawSystem(), 'draw')
 
   engine:addEntity(player)
@@ -70,5 +83,7 @@ function love.update(dt)
 end
 
 function love.draw()
+  camera:attach()
   engine:draw()
+  camera:detach()
 end

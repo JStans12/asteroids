@@ -1,108 +1,101 @@
 local buildEntity = require('helpers.buildEntity')
-local buildSpriteSheet = require('helpers.buildSpriteSheet')
+local buildSprite = require('helpers.buildSprite')
+local config      = require('config.asteroid')
 
-local Position,
-      Physics,
-      Sprite,
-      Rotation,
-      StaticRotation,
-      Hitbox,
+local Animation,
       Health,
-      Animation =
+      Hitbox,
+      OffMap,
+      Physics,
+      Position,
+      Rotation,
+      Sprite,
+      StaticRotation =
       Component.load({
-        'position',
-        'physics',
-        'sprite',
-        'rotation',
-        'staticRotation',
-        'hitbox',
+        'animation',
         'health',
-        'animation'
+        'hitbox',
+        'offMap',
+        'physics',
+        'position',
+        'rotation',
+        'sprite',
+        'staticRotation'
       })
 
-local function configureSize(size)
-  if size == "large" then
-    local img = 'asteroid_lg_1.png'
-    local dimensions = {
-      rows    = 1,
-      columns = 3,
-      height  = 128,
-      width   = 128
-    }
-    local hitbox = { radius = 58 }
-    local position = {
-      x = math.random(20, 748),
-      y = math.random(20, 492)
-    }
-    local size = { x = 128, y = 128 }
-    local rotationSpeed = math.random(1, 10) / 80
-    local health = 3
-    return img, dimensions, hitbox, position, size, rotationSpeed, health
-  elseif size == "medium" then
-    local img = 'asteroid_md_1.png'
-    local dimensions = {
-      rows    = 1,
-      columns = 3,
-      height  = 64,
-      width   = 64
-    }
-    local hitbox = { radius = 28 }
-    local position = {
-      x = math.random(20, 748),
-      y = math.random(20, 492)
-    }
-    local size = { x = 64, y = 64 }
-    local rotationSpeed = math.random(1, 10) / 60
-    local health = 2
-    return img, dimensions, hitbox, position, size, rotationSpeed, health
-  elseif size == "small" then
-    local img = 'asteroid_sm_1.png'
-    local dimensions = {
-      rows    = 1,
-      columns = 3,
-      height  = 32,
-      width   = 32
-    }
-    local hitbox = { radius = 14 }
-    local position = {
-      x = math.random(20, 748),
-      y = math.random(20, 492)
-    }
-    local size = { x = 32, y = 32 }
-    local rotationSpeed = math.random(1, 10) / 40
-    local health = 1
-    return img, dimensions, hitbox, position, size, rotationSpeed, health
+local function randomPhysics()
+  local pConfig = config.physics
+  return {
+    ax = pConfig[ax],
+    ay = pConfig[ay],
+    vx = math.random(-pConfig.vx, pConfig.vx),
+    vy = math.random(-pConfig.vy, pConfig.vy)
+  }
+end
+
+local function randomPosition()
+  local pConfig = config.position
+  return {
+    x = math.random(-pConfig.x, pConfig.x),
+    y = math.random(-pConfig.y, pConfig.y)
+  }
+end
+
+local function randomStaticRotation(size)
+  return {
+    direction = math.random(1, 2) == 1 and 'left' or 'right',
+    speed     = math.random(1, 10) / config.staticRotation[size].speed
+  }
+end
+
+local function configure(size, player)
+  if player then
+    return copy(player)
   end
+
+  local animation      = config.animation
+  local health         = config.health[size]
+  local hitbox         = config.hitbox[size]
+  local offMap         = nil
+  local physics        = randomPhysics()
+  local position       = randomPosition()
+  local rotation       = config.rotation
+  local sprite         = buildSprite(config.sprite[size])
+  local staticRotation = randomStaticRotation(size)
+
+  return animation,
+         health,
+         hitbox,
+         offMap,
+         physics,
+         position,
+         rotation,
+         sprite,
+         staticRotation
 end
 
 local function Asteroid(size)
-  local img,
-        dimensions,
+  local animation,
+        health,
         hitbox,
+        offMap,
+        physics,
         position,
-        size,
-        rotationSpeed,
-        health =
-        configureSize(size)
+        rotation,
+        sprite,
+        staticRotation =
+        configure(size, player)
 
   return buildEntity({
+    Animation(animation.sequences),
+    Health(health.value),
+    Hitbox(hitbox.radius, hitbox.bounce, hitbox.priority),
+    OffMap(),
+    Physics(physics.ax, physics.ay, physics.vx, physics.vy),
     Position(position.x, position.y),
-    Physics(0, 0, math.random(-10, 10), math.random(-10, 10)),
-    Sprite(buildSpriteSheet({
-      img          = img,
-      dimensions   = dimensions,
-      currentFrame = 1
-    })),
-    Rotation(0),
-    StaticRotation(
-      math.random(1, 2) == 1 and 'left' or 'right',
-      rotationSpeed
-    ),
-    Hitbox(hitbox.radius, true, 2),
-    Health(health),
-    Animation(
-      { hit = { frames = { 2 }, frameDelay = .15 } }
-    )
+    Rotation(rotation.direction),
+    Sprite(sprite.spriteSheet, sprite.frames, sprite.currentFrame, sprite.size),
+    StaticRotation(staticRotation.direction, staticRotation.speed)
   })
 end
 
