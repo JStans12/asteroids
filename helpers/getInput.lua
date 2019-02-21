@@ -27,6 +27,18 @@ local function getInput()
   if love.keyboard.isDown('space') then
     table.insert(pressedKeys, 'space')
   end
+  if love.keyboard.isDown('j') then
+    table.insert(pressedKeys, 'j')
+  end
+  if love.keyboard.isDown('k') then
+    table.insert(pressedKeys, 'k')
+  end
+  if love.keyboard.isDown('l') then
+    table.insert(pressedKeys, 'l')
+  end
+  if love.keyboard.isDown(';') then
+    table.insert(pressedKeys, ';')
+  end
 
   return pressedKeys
 end

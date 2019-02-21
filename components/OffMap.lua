@@ -1,3 +1,4 @@
 local OffMap = Component.create(
-  'offMap'
+  'offMap',
+  { 'position' }
 )

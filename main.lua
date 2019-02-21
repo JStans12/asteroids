@@ -42,13 +42,14 @@ local AnimationSystem      = require('systems.AnimationSystem')
 local DrawSystem           = require('systems.DrawSystem')
 local CameraSystem         = require('systems.CameraSystem')
 local OffMapSystem         = require('systems.OffMapSystem')
+local GridSystem           = require('systems.GridSystem')
 
 engine = Engine()
 
 local keymaps      = require('config.keymaps')
 local InputHandler = require('handlers.InputHandler')
 
-function love.load(args)
+function love.load(arg)
   math.randomseed(os.time())
 
   -- starting entities
@@ -57,23 +58,31 @@ function love.load(args)
   camera:lookAt(playerPosition.x, playerPosition.y)
 
   -- setup engine
+  engine:addSystem(OffMapSystem())
   engine:addSystem(MoveSystem())
   engine:addSystem(StaticRotationSystem())
   engine:addSystem(CollisionSystem())
   engine:addSystem(HealthSystem())
   engine:addSystem(AnimationSystem())
   engine:addSystem(CameraSystem())
-  engine:addSystem(OffMapSystem())
   engine:addSystem(DrawSystem(), 'draw')
 
   engine:addEntity(player)
   require('loaders.loadAsteroids')()
+  -- rock = Asteroid({ size = 'large' })
+  -- engine:addEntity(rock)
 
   InputHandler:register(player)
 
-  if hasValue(args, "hitbox") then
+  if hasValue(arg, 'hitbox') then
     local HitboxDrawSystem = require('systems.HitboxDrawSystem')
-    engine:addSystem(HitboxDrawSystem(), 'draw')
+    engine:addSystem(HlitboxDrawSystem(), 'draw')
+  end
+
+  if hasValue(arg, 'grid') then
+    print('grid')
+    local HitboxDrawSystem = require('systems.HitboxDrawSystem')
+    engine:addSystem(GridSystem(), 'draw')
   end
 end
 

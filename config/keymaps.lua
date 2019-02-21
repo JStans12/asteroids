@@ -4,6 +4,10 @@ return {
     down  = 's',
     left  = 'a',
     right = 'd',
-    shoot = 'space'
+    shoot = 'space',
+    dev1  = 'j',
+    dev2  = 'k',
+    dev3  = 'l',
+    dev4  = ';'
   }
 }

@@ -7,7 +7,7 @@ end
 function CameraSystem:update(dt)
   local player = self.targets[1]
   local position = player:get('position')
-  local map = { size = { x = 2000, y = 1500 } }
+  local map = { size = { x = 1000, y = 1000 } }
 
   if position.x < -map.size.x/2 then
     position.x = map.size.x + position.x

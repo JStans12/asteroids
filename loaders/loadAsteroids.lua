@@ -6,7 +6,7 @@ local function load(size, amount)
     repeat
       local collision = false
 
-      local asteroid = Asteroid(size)
+      local asteroid = Asteroid({ size = size })
       engine:addEntity(asteroid)
 
       local entities = engine:getEntitiesWithComponent('hitbox')
@@ -22,9 +22,9 @@ local function load(size, amount)
 end
 
 local function loadAsteroids()
-  load("large", 2)
-  load("medium", 2)
-  load("small", 2)
+  load("large", 1)
+  -- load("medium", 2)
+  -- load("small", 2)
 end
 
 return loadAsteroids

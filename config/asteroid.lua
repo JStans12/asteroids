@@ -42,8 +42,8 @@ return {
     vy = 10
   },
   position = {
-    x = 350,
-    y = 350
+    x = 500,
+    y = 500
   },
   rotation = {
     value = 0

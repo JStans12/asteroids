@@ -3,6 +3,7 @@ local physicsConfig = require('config.physics')
 local Bullet = require('entities.Bullet')
 local startOrContinueAnimation = require('helpers.startOrContinueAnimation')
 local stopAnimation = require('helpers.stopAnimation')
+local devInput = require('devInput')
 
 local InputHandler = {
   targets = {}
@@ -21,12 +22,20 @@ function InputHandler:perform(downKeys)
     keymap['left'] = controllable.keymap['left']
     keymap['right'] = controllable.keymap['right']
     keymap['shoot'] = controllable.keymap['shoot']
+    keymap['dev1'] = controllable.keymap['dev1']
+    keymap['dev2'] = controllable.keymap['dev2']
+    keymap['dev3'] = controllable.keymap['dev3']
+    keymap['dev4'] = controllable.keymap['dev4']
 
     local entityKeys = Set {
       keymap['up'],
       keymap['left'],
       keymap['right'],
-      keymap['shoot']
+      keymap['shoot'],
+      keymap['dev1'],
+      keymap['dev2'],
+      keymap['dev3'],
+      keymap['dev4']
     }
 
     local pressedKeys = {}
@@ -38,6 +47,8 @@ function InputHandler:perform(downKeys)
     local rotation  = entity:get('rotation')
     local physics   = entity:get('physics')
     local Animation = entity:get('animation')
+
+    devInput(pressedKeys, keymap)
 
     -- Acceleration
     if pressedKeys[keymap['up']] then

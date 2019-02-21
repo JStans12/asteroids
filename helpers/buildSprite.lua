@@ -18,11 +18,11 @@ local function buildFrames(img, dimensions)
   return frames
 end
 
-local function buildSprite(args)
-  local spriteSheet  = love.graphics.newImage(args.spriteSheet)
-  local frames       = buildFrames(spriteSheet, args.dimensions)
-  local currentFrame = args.currentFrame
-  local size         = { width = args.dimensions.width, height = args.dimensions.height}
+local function buildSprite(arg)
+  local spriteSheet  = love.graphics.newImage(arg.spriteSheet)
+  local frames       = buildFrames(spriteSheet, arg.dimensions)
+  local currentFrame = arg.currentFrame
+  local size         = { width = arg.dimensions.width, height = arg.dimensions.height}
 
   return {
     spriteSheet = spriteSheet,
