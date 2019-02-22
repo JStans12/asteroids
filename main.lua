@@ -28,6 +28,7 @@ require('components.Health')
 require('components.Animation')
 require('components.CameraFollow')
 require('components.OffMap')
+require('components.Ttl')
 
 -- entities
 local Player   = require('entities.Player')
@@ -43,6 +44,7 @@ local DrawSystem           = require('systems.DrawSystem')
 local CameraSystem         = require('systems.CameraSystem')
 local OffMapSystem         = require('systems.OffMapSystem')
 local GridSystem           = require('systems.GridSystem')
+local TtlSystem            = require('systems.TtlSystem')
 
 engine = Engine()
 
@@ -65,6 +67,7 @@ function love.load(arg)
   engine:addSystem(HealthSystem())
   engine:addSystem(AnimationSystem())
   engine:addSystem(CameraSystem())
+  engine:addSystem(TtlSystem())
   engine:addSystem(DrawSystem(), 'draw')
 
   engine:addEntity(player)
@@ -80,7 +83,6 @@ function love.load(arg)
   end
 
   if hasValue(arg, 'grid') then
-    print('grid')
     local HitboxDrawSystem = require('systems.HitboxDrawSystem')
     engine:addSystem(GridSystem(), 'draw')
   end

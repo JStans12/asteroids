@@ -87,7 +87,7 @@ function InputHandler:perform(downKeys)
 
     if controllable.shootCooldown == 0 then
       if pressedKeys[keymap['shoot']] then
-        local bullet = Bullet(entity)
+        local bullet = Bullet({ player = entity })
         engine:addEntity(bullet)
         controllable.shootCooldown = controllable.shootCooldown + 60
       end

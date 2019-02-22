@@ -38,20 +38,12 @@ local function determineHealth(entity1, entity2)
     local priority1 = entity1:get('hitbox').priority
     local priority2 = entity2:get('hitbox').priority
     if priority1 == priority2 then
-      for _, entity in pairs(allCopiesOf(entity1)) do
-        decreaseHealth(entity)
-      end
-      for _, entity in pairs(allCopiesOf(entity2)) do
-        decreaseHealth(entity)
-      end
+      decreaseHealth(entity1)
+      decreaseHealth(entity2)
     elseif priority1 > priority2 then
-      for _, entity in pairs(allCopiesOf(entity2)) do
-        decreaseHealth(entity)
-      end
+      decreaseHealth(entity2)
     else
-      for _, entity in pairs(allCopiesOf(entity1)) do
-        decreaseHealth(entity)
-      end
+      decreaseHealth(entity1)
     end
   end
 end

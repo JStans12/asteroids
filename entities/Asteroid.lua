@@ -1,4 +1,3 @@
-local buildEntity = require('helpers.buildEntity')
 local buildSprite = require('helpers.buildSprite')
 local config      = require('config.asteroid')
 local moveOffMap  = require('helpers.moveOffMap')
