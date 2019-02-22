@@ -1,6 +1,7 @@
 local buildEntity = require('helpers.buildEntity')
 local buildSprite = require('helpers.buildSprite')
 local config      = require('config.asteroid')
+local moveOffMap  = require('helpers.moveOffMap')
 
 local Animation,
       Health,
@@ -38,6 +39,8 @@ local function randomPosition()
   return {
     x = math.random(-pConfig.x, pConfig.x),
     y = math.random(-pConfig.y, pConfig.y)
+    -- x = 450,
+    -- y = 450
   }
 end
 
@@ -131,6 +134,7 @@ local function Asteroid(arg)
     for _, position in pairs({ 'x', 'y', 'corner' }) do
       local child = Asteroid({ parent = asteroid, position = position })
       engine:addEntity(child)
+      moveOffMap(child)
     end
   end
 

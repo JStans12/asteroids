@@ -1,6 +1,7 @@
 local CollisionSystem = class('CollisionSystem', System)
 local checkCollision  = require('helpers.checkCollision')
 local startOrContinueAnimation = require('helpers.startOrContinueAnimation')
+local allCopiesOf = require('helpers.allCopiesOf')
 
 function CollisionSystem:requires()
   return { 'position', 'hitbox' }
@@ -27,19 +28,30 @@ local function bounce(entity1, entity2)
   physics2.vy = newVY2
 end
 
+local function decreaseHealth(entity)
+  local health = entity:get('health')
+  health.value = health.value - 1
+end
+
 local function determineHealth(entity1, entity2)
-  health1 = entity1:get('health')
-  health2 = entity2:get('health')
-  if health1 and health2 then
+  if entity1:has('health') and entity2:has('health') then
     local priority1 = entity1:get('hitbox').priority
     local priority2 = entity2:get('hitbox').priority
     if priority1 == priority2 then
-      health2.value = health2.value - 1
-      health1.value = health1.value - 1
+      for _, entity in pairs(allCopiesOf(entity1)) do
+        decreaseHealth(entity)
+      end
+      for _, entity in pairs(allCopiesOf(entity2)) do
+        decreaseHealth(entity)
+      end
     elseif priority1 > priority2 then
-      health2.value = health2.value - 1
+      for _, entity in pairs(allCopiesOf(entity2)) do
+        decreaseHealth(entity)
+      end
     else
-      health1.value = health1.value - 1
+      for _, entity in pairs(allCopiesOf(entity1)) do
+        decreaseHealth(entity)
+      end
     end
   end
 end
