@@ -8,25 +8,27 @@ end
 
 local function bounce(entity1, entity2, dt)
   if entity1:has('onMap') or entity2:has('onMap') then
-    local position1 = entity1:get('position')
-    local position2 = entity2:get('position')
     local hitbox1   = entity1:get('hitbox')
     local hitbox2   = entity2:get('hitbox')
 
-    local physics1, physics2
+    local physics1, physics2, position1, position2
     if entity1:has('offMap') then
       print('1 off')
       local parent1 = entity1:getParent()
       physics1 = parent1:get('physics')
+      position1 = parent1:get('position')
     else
       physics1 = entity1:get('physics')
+      position1 = entity1:get('position')
     end
     if entity2:has('offMap') then
       print('2 off')
       local parent2 = entity2:getParent()
       physics2 = parent2:get('physics')
+      position2 = parent2:get('position')
     else
       physics2 = entity2:get('physics')
+      position2 = entity2:get('position')
     end
     print('end')
 
