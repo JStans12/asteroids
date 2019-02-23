@@ -14,14 +14,12 @@ local function bounce(entity1, entity2, dt)
 
     local physics1, physics2
     if entity1:has('offMap') then
-      print('1 off')
       local parent1 = entity1:getParent()
       physics1 = parent1:get('physics')
     else
       physics1 = entity1:get('physics')
     end
     if entity2:has('offMap') then
-      print('2 off')
       local parent2 = entity2:getParent()
       physics2 = parent2:get('physics')
     else

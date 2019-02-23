@@ -19,6 +19,8 @@ function DrawSystem:draw()
       rotation = entity:get('rotation')
     end
 
+    if not rotation then rotation = { direction = 0 } end
+
     love.graphics.draw(
       sprite.spriteSheet,
       sprite.frames[sprite.currentFrame],

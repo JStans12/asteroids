@@ -9,7 +9,7 @@ function TtlSystem:update(dt)
     local ttl = entity:get('ttl')
     ttl.remaining = ttl.remaining - 100 * dt
     if ttl.remaining < 0 then
-      engine:removeEntity(entity)
+      engine:removeEntity(entity, true)
     end
   end
 end

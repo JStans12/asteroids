@@ -46,19 +46,21 @@ local function Bullet(arg)
   bullet:initialize()
   bullet:addMultiple({
     Position(playerPosition.x, playerPosition.y),
-    Physics(0, 0, speedX, speedY),
-    Sprite(sprite.spriteSheet, sprite.frames, sprite.currentFrame, sprite.size),
-    Rotation(),
     Hitbox(2, false, 2),
-    Health(1, 0),
-    Ttl(50),
     Type('bullet')
   })
 
   if arg.parent then
     bullet:add(OffMap(arg.position))
   else
-    bullet:add(OnMap())
+    bullet:addMultiple({
+      Physics(0, 0, speedX, speedY),
+      Sprite(sprite.spriteSheet, sprite.frames, sprite.currentFrame, sprite.size),
+      Rotation(),
+      Health(1, 0),
+      Ttl(50),
+      OnMap()
+    })
     for _, position in pairs({ 'x', 'y', 'corner' }) do
       local child = Bullet({ player = arg.player, parent = bullet, position = position })
       engine:addEntity(child)
