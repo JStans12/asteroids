@@ -5,23 +5,23 @@ function CameraSystem:requires()
 end
 
 function CameraSystem:update(dt)
-  local player = self.targets[1]
-  local position = player:get('position')
-  local map = { size = { x = 1000, y = 1000 } }
+  for _, player in pairs(self.targets) do
+    local position = player:get('position')
 
-  if position.x < -map.size.x/2 then
-    position.x = map.size.x + position.x
-  elseif position.x > map.size.x/2 then
-    position.x = -map.size.x + position.x
+    if position.x < -map.size.width/2 then
+      position.x = map.size.width + position.x
+    elseif position.x > map.size.width/2 then
+      position.x = -map.size.width + position.x
+    end
+
+    if position.y < -map.size.height/2 then
+      position.y = map.size.height + position.y
+    elseif position.y > map.size.height/2 then
+      position.y = -map.size.height + position.y
+    end
+
+    camera:lookAt(position.x, position.y)
   end
-
-  if position.y < -map.size.y/2 then
-    position.y = map.size.y + position.y
-  elseif position.y > map.size.y/2 then
-    position.y = -map.size.y + position.y
-  end
-
-  camera:lookAt(position.x, position.y)
 end
 
 return CameraSystem

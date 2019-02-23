@@ -5,7 +5,6 @@ function GridSystem:requires()
 end
 
 function GridSystem:draw()
-  local map = { size = { width = 1000, height = 1000 } }
   local wWidth, wHeight = love.window.getMode()
 
   love.graphics.line(0, -map.size.height / 2, 0, map.size.height / 2)

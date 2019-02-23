@@ -3,7 +3,7 @@ local lovetoys = require('lib.lovetoys.lovetoys')
 lovetoys.initialize({ globals = true, debug = true })
 
 -- width, height, {}
-love.window.setMode(768, 512, {
+love.window.setMode(1500, 1000, {
   highdpi = true
 })
 
@@ -29,6 +29,7 @@ require('components.Animation')
 require('components.CameraFollow')
 require('components.OffMap')
 require('components.Ttl')
+require('components.Type')
 
 -- entities
 local Player   = require('entities.Player')
@@ -50,12 +51,13 @@ engine = Engine()
 
 local keymaps      = require('config.keymaps')
 local InputHandler = require('handlers.InputHandler')
+map = { size = { width = 500, height = 500 } }
 
 function love.load(arg)
   math.randomseed(os.time())
 
   -- starting entities
-  local player = Player(keymaps.playerOne)
+  local player = Player({ keymap = keymaps.playerOne })
   local playerPosition = player:get('position')
   camera:lookAt(playerPosition.x, playerPosition.y)
 

@@ -1,5 +1,4 @@
 local function moveOffMap(entity)
-  local map = { size = { width = 1000, height = 1000 } }
   local offMap = entity:get('offMap')
   local position = entity:get('position')
   local parent = entity:getParent()

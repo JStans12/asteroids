@@ -1,7 +1,6 @@
 local CollisionSystem = class('CollisionSystem', System)
 local checkCollision  = require('helpers.checkCollision')
 local startOrContinueAnimation = require('helpers.startOrContinueAnimation')
-local allCopiesOf = require('helpers.allCopiesOf')
 
 function CollisionSystem:requires()
   return { 'position', 'hitbox' }
@@ -49,9 +48,13 @@ local function determineHealth(entity1, entity2)
 end
 
 local function handleCollision(entity1, entity2, collisionPoint)
-  local hitbox1 = entity1:get('hitbox')
-  local hitbox2 = entity2:get('hitbox')
-  if (hitbox1.bounce and hitbox2.bounce) then
+  local type1 = entity1:get('type').value
+  local type2 = entity2:get('type').value
+  if type1 == 'asteroid' and type2 == 'asteroid' then
+    bounce(entity1, entity2)
+  elseif type1 == 'player' and type2 == 'asteroid' then
+    bounce(entity1, entity2)
+  elseif type1 == 'asteroid' and type2 == 'player' then
     bounce(entity1, entity2)
   else
     determineHealth(entity1, entity2)

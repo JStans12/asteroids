@@ -8,7 +8,8 @@ local Position,
       Rotation,
       Health,
       Ttl,
-      OffMap
+      OffMap,
+      Type
       = Component.load({
         'position',
         'physics',
@@ -17,7 +18,8 @@ local Position,
         'rotation',
         'health',
         'ttl',
-        'offMap'
+        'offMap',
+        'type'
       })
 
 local function Bullet(arg)
@@ -47,7 +49,8 @@ local function Bullet(arg)
     Rotation(),
     Hitbox(2, false, 2),
     Health(1),
-    Ttl(50)
+    Ttl(50),
+    Type('bullet')
   })
 
   if arg.parent then

@@ -10,7 +10,8 @@ local Animation,
       Position,
       Rotation,
       Sprite,
-      StaticRotation =
+      StaticRotation,
+      Type =
       Component.load({
         'animation',
         'health',
@@ -20,7 +21,8 @@ local Animation,
         'position',
         'rotation',
         'sprite',
-        'staticRotation'
+        'staticRotation',
+        'type'
       })
 
 local function randomPhysics()
@@ -76,8 +78,7 @@ local function buildChild(parent)
          position,
          rotation,
          sprite,
-         staticRotation,
-         offMap
+         staticRotation
 end
 
 local function configure(arg)
@@ -124,7 +125,8 @@ local function Asteroid(arg)
     Position(position.x, position.y),
     Rotation(rotation.direction),
     Sprite(sprite.spriteSheet, sprite.frames, sprite.currentFrame, sprite.size),
-    StaticRotation(staticRotation.direction, staticRotation.speed)
+    StaticRotation(staticRotation.direction, staticRotation.speed),
+    Type('asteroid')
   })
 
   if arg.parent then
