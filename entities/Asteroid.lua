@@ -130,7 +130,7 @@ local function Asteroid(arg)
   else
     asteroid:addMultiple({
       Animation(animation.sequences),
-      Health(health.value),
+      Health(health.value, health.hitCooldown),
       Physics(physics.ax, physics.ay, physics.vx, physics.vy),
       Rotation(rotation.direction),
       Sprite(sprite.spriteSheet, sprite.frames, sprite.currentFrame, sprite.size),

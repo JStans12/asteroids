@@ -50,7 +50,7 @@ local function Bullet(arg)
     Sprite(sprite.spriteSheet, sprite.frames, sprite.currentFrame, sprite.size),
     Rotation(),
     Hitbox(2, false, 2),
-    Health(1),
+    Health(1, 0),
     Ttl(50),
     Type('bullet')
   })

@@ -9,13 +9,16 @@ return {
   },
   health = {
     large = {
-      value = 12
+      value = 12,
+      hitCooldown = 0
     },
     medium = {
-      value = 8
+      value = 8,
+      hitCooldown = 0
     },
     small = {
-      value = 4
+      value = 4,
+      hitCooldown = 0
     }
   },
   hitbox = {

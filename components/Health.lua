@@ -1,4 +1,4 @@
 local Health = Component.create(
   'health',
-  { 'value' }
+  { 'value', 'hitCooldown' }
 )

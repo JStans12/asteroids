@@ -62,7 +62,7 @@ local function Player(arg)
       }),
       Rotation(0),
       Physics(),
-      Health(50),
+      Health(50, 0),
       OnMap()
     })
     for _, position in pairs({ 'x', 'y', 'corner '}) do

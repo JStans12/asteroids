@@ -66,8 +66,8 @@ function love.load(arg)
 
   -- setup engine
   engine:addSystem(InputSystem())
-  engine:addSystem(OffMapSystem())
   engine:addSystem(OnMapSystem())
+  engine:addSystem(OffMapSystem())
   engine:addSystem(MoveSystem())
   engine:addSystem(StaticRotationSystem())
   engine:addSystem(CollisionSystem())

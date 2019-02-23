@@ -16,6 +16,9 @@ function HealthSystem:update()
         engine:removeEntity(entity, true)
       end
     end
+    if health.hitCooldown > 0 then
+      health.hitCooldown = health.hitCooldown - 1
+    end
   end
 end
 
