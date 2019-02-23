@@ -120,21 +120,23 @@ local function Asteroid(arg)
   local asteroid = Entity(arg.parent)
   asteroid:initialize()
   asteroid:addMultiple({
-    Animation(animation.sequences),
-    Health(health.value),
     Hitbox(hitbox.radius, hitbox.bounce, hitbox.priority),
-    Physics(physics.ax, physics.ay, physics.vx, physics.vy),
     Position(position.x, position.y),
-    Rotation(rotation.direction),
-    Sprite(sprite.spriteSheet, sprite.frames, sprite.currentFrame, sprite.size),
-    StaticRotation(staticRotation.direction, staticRotation.speed),
     Type('asteroid')
   })
 
   if arg.parent then
     asteroid:add(OffMap(arg.position))
   else
-    asteroid:add(OnMap())
+    asteroid:addMultiple({
+      Animation(animation.sequences),
+      Health(health.value),
+      Physics(physics.ax, physics.ay, physics.vx, physics.vy),
+      Rotation(rotation.direction),
+      Sprite(sprite.spriteSheet, sprite.frames, sprite.currentFrame, sprite.size),
+      StaticRotation(staticRotation.direction, staticRotation.speed),
+      OnMap()
+    })
     for _, position in pairs({ 'x', 'y', 'corner' }) do
       local child = Asteroid({ parent = asteroid, position = position })
       engine:addEntity(child)

@@ -8,6 +8,7 @@ local Position,
       Controllable,
       Rotation,
       Hitbox,
+      Health,
       Animation,
       CameraFollow,
       Type,
@@ -20,6 +21,7 @@ local Position,
         'controllable',
         'rotation',
         'hitbox',
+        'health',
         'animation',
         'cameraFollow',
         'type',
@@ -32,7 +34,7 @@ local function Player(arg)
     spriteSheet = 'ship.png',
     dimensions = {
       rows      = 1,
-      columns   = 3,
+      columns   = 4,
       height    = 32,
       width     = 32
     },
@@ -43,14 +45,7 @@ local function Player(arg)
   player:initialize()
   player:addMultiple({
     Position(100, 100),
-    Physics(),
-    Sprite(sprite.spriteSheet, sprite.frames, sprite.currentFrame, sprite.size),
-    Controllable(arg.keymap, 0),
-    Rotation(0),
     Hitbox(15, false, 101),
-    Animation(
-      { thrust = { frames = { 2, 3 }, frameDelay = .05, repeatable = true } }
-    ),
     Type('player')
   })
 
@@ -58,11 +53,20 @@ local function Player(arg)
     player:add(OffMap(arg.position))
   else
     player:addMultiple({
+      Controllable(arg.keymap, 0),
       CameraFollow(50),
+      Sprite(sprite.spriteSheet, sprite.frames, sprite.currentFrame, sprite.size),
+      Animation({
+        thrust = { frames = { 2, 3 }, frameDelay = .05, repeatable = true },
+        hit = { frames = { 4 }, frameDelay = .1 }
+      }),
+      Rotation(0),
+      Physics(),
+      Health(50),
       OnMap()
     })
     for _, position in pairs({ 'x', 'y', 'corner '}) do
-      local child = Player({ parent = player, position = position, keymap = arg.keymap })
+      local child = Player({ parent = player, position = position })
       engine:addEntity(child)
       moveOffMap(child)
     end

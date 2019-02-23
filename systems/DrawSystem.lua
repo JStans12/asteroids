@@ -1,17 +1,22 @@
 local DrawSystem = class('DrawSystem', System)
 
 function DrawSystem:requires()
-  return { 'position', 'sprite', 'rotation' }
+  return { 'position' }
 end
 
 function DrawSystem:draw()
   for _, entity in pairs(self.targets) do
-    local sprite = entity:get('sprite')
     local position = entity:get('position')
-    local rotation = entity:get('rotation')
 
+    local sprite, rotation
     if entity:has('offMap') then
+      local parent = entity:getParent()
+      sprite = parent:get('sprite')
+      rotation = parent:get('rotation')
       love.graphics.setColor(.25, .75, 1)
+    else
+      sprite = entity:get('sprite')
+      rotation = entity:get('rotation')
     end
 
     love.graphics.draw(

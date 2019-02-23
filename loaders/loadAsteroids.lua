@@ -12,7 +12,6 @@ local function load(size, amount)
       local entities = engine:getEntitiesWithComponent('hitbox')
 
       local function handleCollision()
-        print('handling')
         engine:removeEntity(asteroid, true)
         collision = true
       end
@@ -24,8 +23,8 @@ end
 
 local function loadAsteroids()
   load("large", 1)
-  load("medium", 1)
-  load("small", 1)
+  -- load("medium", 1)
+  -- load("small", 1)
 end
 
 return loadAsteroids

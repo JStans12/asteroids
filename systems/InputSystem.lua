@@ -46,7 +46,7 @@ function InputSystem:update()
 
     local rotation  = entity:get('rotation')
     local physics   = entity:get('physics')
-    local Animation = entity:get('animation')
+    local animation = entity:get('animation')
 
     devInput(pressedKeys, keymap)
 
@@ -69,8 +69,10 @@ function InputSystem:update()
         if physics.vy < -maxSpeedY then physics.vy = -maxSpeedY end
       end
 
-      startOrContinueAnimation(entity, 'thrust')
-    else
+      if animation.currentSequence == nil then
+        startOrContinueAnimation(entity, 'thrust')
+      end
+    elseif animation.currentSequence == 'thrust' then
       stopAnimation(entity)
     end
 
