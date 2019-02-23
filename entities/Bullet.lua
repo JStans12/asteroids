@@ -9,6 +9,7 @@ local Position,
       Health,
       Ttl,
       OffMap,
+      OnMap,
       Type
       = Component.load({
         'position',
@@ -19,6 +20,7 @@ local Position,
         'health',
         'ttl',
         'offMap',
+        'onMap',
         'type'
       })
 
@@ -56,6 +58,7 @@ local function Bullet(arg)
   if arg.parent then
     bullet:add(OffMap(arg.position))
   else
+    bullet:add(OnMap())
     for _, position in pairs({ 'x', 'y', 'corner' }) do
       local child = Bullet({ player = arg.player, parent = bullet, position = position })
       engine:addEntity(child)

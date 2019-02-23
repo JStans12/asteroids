@@ -6,6 +6,7 @@ local Animation,
       Health,
       Hitbox,
       OffMap,
+      OnMap,
       Physics,
       Position,
       Rotation,
@@ -17,6 +18,7 @@ local Animation,
         'health',
         'hitbox',
         'offMap',
+        'onMap',
         'physics',
         'position',
         'rotation',
@@ -132,6 +134,7 @@ local function Asteroid(arg)
   if arg.parent then
     asteroid:add(OffMap(arg.position))
   else
+    asteroid:add(OnMap())
     for _, position in pairs({ 'x', 'y', 'corner' }) do
       local child = Asteroid({ parent = asteroid, position = position })
       engine:addEntity(child)

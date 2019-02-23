@@ -10,6 +10,10 @@ function DrawSystem:draw()
     local position = entity:get('position')
     local rotation = entity:get('rotation')
 
+    if entity:has('offMap') then
+      love.graphics.setColor(.25, .75, 1)
+    end
+
     love.graphics.draw(
       sprite.spriteSheet,
       sprite.frames[sprite.currentFrame],
@@ -21,6 +25,8 @@ function DrawSystem:draw()
       sprite.size.height / 2,
       sprite.size.width / 2
     )
+
+    love.graphics.setColor(1, 1, 1)
   end
 end
 

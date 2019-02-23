@@ -5,28 +5,30 @@ local function moveOffMap(entity)
   local parentPosition = parent:get('position')
 
   if offMap.position == 'x' then
-    if position.x >= 0 and parentPosition.x >= 0 then
+    if parentPosition.x >= 0 then
       position.x = parentPosition.x - map.size.width
-    elseif position.x < 0 and parentPosition.x < 0 then
+    else
       position.x = parentPosition.x + map.size.width
     end
+    position.y = parentPosition.y
   elseif offMap.position == 'y' then
-    if position.y >= 0 and parentPosition.y >= 0 then
+    if parentPosition.y >= 0 then
       position.y = parentPosition.y - map.size.height
-    elseif position.y < 0 and parentPosition.y < 0 then
+    else
       position.y = parentPosition.y + map.size.height
     end
+    position.x = parentPosition.x
   else
-    if position.x >= 0 and position.y < 0 and (parentPosition.x >= 0 or parentPosition.y < 0) then
+    if parentPosition.x >= 0 and parentPosition.y >= 0 then
+      position.x = parentPosition.x - map.size.width
+      position.y = parentPosition.y - map.size.height
+    elseif parentPosition.x >= 0 then
       position.x = parentPosition.x - map.size.width
       position.y = parentPosition.y + map.size.height
-    elseif position.x >= 0 and position.y >= 0 and (parentPosition.x >= 0 or parentPosition.y >= 0) then
-      position.x = parentPosition.x - map.size.width
-      position.y = parentPosition.y - map.size.height
-    elseif position.x < 0 and position.y >= 0 and (parentPosition.x < 0 or parentPosition.y >= 0) then
+    elseif parentPosition.y >= 0 then
       position.x = parentPosition.x + map.size.width
       position.y = parentPosition.y - map.size.height
-    elseif position.x < 0 and position.y < 0 and (parentPosition.x < 0 or parentPosition.y < 0) then
+    else
       position.x = parentPosition.x + map.size.width
       position.y = parentPosition.y + map.size.height
     end

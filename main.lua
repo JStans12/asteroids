@@ -3,9 +3,10 @@ local lovetoys = require('lib.lovetoys.lovetoys')
 lovetoys.initialize({ globals = true, debug = true })
 
 -- width, height, {}
-love.window.setMode(1500, 1000, {
+love.window.setMode(750, 500, {
   highdpi = true
 })
+-- love.window.setFullscreen(true)
 
 -- camera
 local Camera = require('lib.hump.camera')
@@ -30,6 +31,7 @@ require('components.CameraFollow')
 require('components.OffMap')
 require('components.Ttl')
 require('components.Type')
+require('components.OnMap')
 
 -- entities
 local Player   = require('entities.Player')
@@ -44,14 +46,15 @@ local AnimationSystem      = require('systems.AnimationSystem')
 local DrawSystem           = require('systems.DrawSystem')
 local CameraSystem         = require('systems.CameraSystem')
 local OffMapSystem         = require('systems.OffMapSystem')
+local OnMapSystem          = require('systems.OnMapSystem')
 local GridSystem           = require('systems.GridSystem')
 local TtlSystem            = require('systems.TtlSystem')
+local InputSystem          = require('systems.InputSystem')
 
 engine = Engine()
 
 local keymaps      = require('config.keymaps')
-local InputHandler = require('handlers.InputHandler')
-map = { size = { width = 500, height = 500 } }
+map = { size = { width = 300, height = 300 } }
 
 function love.load(arg)
   math.randomseed(os.time())
@@ -62,7 +65,9 @@ function love.load(arg)
   camera:lookAt(playerPosition.x, playerPosition.y)
 
   -- setup engine
+  engine:addSystem(InputSystem())
   engine:addSystem(OffMapSystem())
+  engine:addSystem(OnMapSystem())
   engine:addSystem(MoveSystem())
   engine:addSystem(StaticRotationSystem())
   engine:addSystem(CollisionSystem())
@@ -77,21 +82,17 @@ function love.load(arg)
   -- rock = Asteroid({ size = 'large' })
   -- engine:addEntity(rock)
 
-  InputHandler:register(player)
-
   if hasValue(arg, 'hitbox') then
     local HitboxDrawSystem = require('systems.HitboxDrawSystem')
-    engine:addSystem(HlitboxDrawSystem(), 'draw')
+    engine:addSystem(HitboxDrawSystem(), 'draw')
   end
 
   if hasValue(arg, 'grid') then
-    local HitboxDrawSystem = require('systems.HitboxDrawSystem')
     engine:addSystem(GridSystem(), 'draw')
   end
 end
 
 function love.update(dt)
-  InputHandler:perform(getInput())
   engine:update(dt)
 end
 

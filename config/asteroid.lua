@@ -9,13 +9,13 @@ return {
   },
   health = {
     large = {
-      value = 3
+      value = 12
     },
     medium = {
-      value = 2
+      value = 8
     },
     small = {
-      value = 1
+      value = 4
     }
   },
   hitbox = {
@@ -42,8 +42,8 @@ return {
     vy = 10
   },
   position = {
-    x = 500,
-    y = 500
+    x = 100,
+    y = 100
   },
   rotation = {
     value = 0

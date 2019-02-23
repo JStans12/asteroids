@@ -3,17 +3,17 @@ local physicsConfig = require('config.physics')
 local Bullet = require('entities.Bullet')
 local startOrContinueAnimation = require('helpers.startOrContinueAnimation')
 local stopAnimation = require('helpers.stopAnimation')
+local getInput = require('helpers.getInput')
 local devInput = require('devInput')
 
-local InputHandler = {
-  targets = {}
-}
+local InputSystem = class('InputSystem', System)
 
-function InputHandler:register(entity)
-  table.insert(self.targets, entity)
+function InputSystem:requires()
+  return { 'controllable' }
 end
 
-function InputHandler:perform(downKeys)
+function InputSystem:update()
+  local downKeys = getInput()
   for _, entity in pairs(self.targets) do
     local controllable = entity:get('controllable')
 
@@ -97,4 +97,4 @@ function InputHandler:perform(downKeys)
   end
 end
 
-return InputHandler
+return InputSystem

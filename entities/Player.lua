@@ -11,7 +11,8 @@ local Position,
       Animation,
       CameraFollow,
       Type,
-      OffMap =
+      OffMap,
+      OnMap =
       Component.load({
         'position',
         'physics',
@@ -22,7 +23,8 @@ local Position,
         'animation',
         'cameraFollow',
         'type',
-        'offMap'
+        'offMap',
+        'onMap'
       })
 
 local function Player(arg)
@@ -40,7 +42,7 @@ local function Player(arg)
   local player = Entity(arg.parent)
   player:initialize()
   player:addMultiple({
-    Position(0, 0),
+    Position(100, 100),
     Physics(),
     Sprite(sprite.spriteSheet, sprite.frames, sprite.currentFrame, sprite.size),
     Controllable(arg.keymap, 0),
@@ -52,24 +54,13 @@ local function Player(arg)
     Type('player')
   })
 
-  -- local player = buildEntity({
-  --   Position(0, 0),
-  --   Physics(),
-  --   Sprite(sprite.spriteSheet, sprite.frames, sprite.currentFrame, sprite.size),
-  --   Controllable(keymap, 0),
-  --   Rotation(0),
-  --   Hitbox(15, false, 101),
-  --   Animation(
-  --     { thrust = { frames = { 2, 3 }, frameDelay = .05, repeatable = true } }
-  --   ),
-  --   CameraFollow(50),
-  --   Type('player')
-  -- })
-
   if arg.parent then
     player:add(OffMap(arg.position))
   else
-    player:add(CameraFollow(50))
+    player:addMultiple({
+      CameraFollow(50),
+      OnMap()
+    })
     for _, position in pairs({ 'x', 'y', 'corner '}) do
       local child = Player({ parent = player, position = position, keymap = arg.keymap })
       engine:addEntity(child)

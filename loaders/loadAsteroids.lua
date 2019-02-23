@@ -23,9 +23,9 @@ local function load(size, amount)
 end
 
 local function loadAsteroids()
-  load("large", 3)
-  load("medium", 5)
-  load("small", 6)
+  load("large", 1)
+  load("medium", 1)
+  load("small", 1)
 end
 
 return loadAsteroids

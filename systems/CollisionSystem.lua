@@ -32,22 +32,19 @@ local function decreaseHealth(entity)
   health.value = health.value - 1
 end
 
-local function determineHealth(entity1, entity2)
-  if entity1:has('health') and entity2:has('health') then
-    local priority1 = entity1:get('hitbox').priority
-    local priority2 = entity2:get('hitbox').priority
-    if priority1 == priority2 then
-      decreaseHealth(entity1)
-      decreaseHealth(entity2)
-    elseif priority1 > priority2 then
-      decreaseHealth(entity2)
-    else
-      decreaseHealth(entity1)
+local function hit(entities)
+  for _, entity in pairs(entities) do
+    decreaseHealth(entity)
+    if entity:has('animation') then
+      if entity:get('animation').sequences.hit then
+        startOrContinueAnimation(entity, 'hit')
+      end
     end
   end
 end
 
 local function handleCollision(entity1, entity2, collisionPoint)
+  print('handle')
   local type1 = entity1:get('type').value
   local type2 = entity2:get('type').value
   if type1 == 'asteroid' and type2 == 'asteroid' then
@@ -56,15 +53,9 @@ local function handleCollision(entity1, entity2, collisionPoint)
     bounce(entity1, entity2)
   elseif type1 == 'asteroid' and type2 == 'player' then
     bounce(entity1, entity2)
-  else
-    determineHealth(entity1, entity2)
-    for _, entity in pairs({ entity1, entity2 }) do
-      if entity:has('animation') then
-        if entity:get('animation').sequences.hit then
-          startOrContinueAnimation(entity, 'hit')
-        end
-      end
-    end
+  elseif type1 == 'asteroid' and type2 == 'bullet' or
+    type1 == 'bullet' and type2 == 'asteroid' then
+    hit({ entity1, entity2 })
   end
 end
 
