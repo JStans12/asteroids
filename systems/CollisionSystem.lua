@@ -1,6 +1,7 @@
 local CollisionSystem = class('CollisionSystem', System)
 local checkCollision  = require('helpers.checkCollision')
 local startOrContinueAnimation = require('helpers.startOrContinueAnimation')
+local allCopiesOf = require('helpers.allCopiesOf')
 
 function CollisionSystem:requires()
   return { 'position', 'hitbox' }
@@ -11,26 +12,21 @@ local function bounce(entity1, entity2, dt)
     local hitbox1   = entity1:get('hitbox')
     local hitbox2   = entity2:get('hitbox')
 
-    local physics1, physics2, position1, position2
+    local physics1, physics2
     if entity1:has('offMap') then
       print('1 off')
       local parent1 = entity1:getParent()
       physics1 = parent1:get('physics')
-      position1 = parent1:get('position')
     else
       physics1 = entity1:get('physics')
-      position1 = entity1:get('position')
     end
     if entity2:has('offMap') then
       print('2 off')
       local parent2 = entity2:getParent()
       physics2 = parent2:get('physics')
-      position2 = parent2:get('position')
     else
       physics2 = entity2:get('physics')
-      position2 = entity2:get('position')
     end
-    print('end')
 
     local vxTotal = physics1.vx - physics2.vx
     local vyTotal = physics1.vy - physics2.vy
@@ -44,10 +40,17 @@ local function bounce(entity1, entity2, dt)
     physics2.vx = newVX2
     physics2.vy = newVY2
 
-    position1.x = position1.x + newVX1 * dt
-    position1.y = position1.y + newVY1 * dt
-    position2.x = position2.x + newVX2 * dt
-    position2.y = position2.y + newVY2 * dt
+    for _, entity in pairs(allCopiesOf(entity1)) do
+      local position = entity:get('position')
+      position.x = position.x + newVX1 * dt
+      position.y = position.y + newVY1 * dt
+    end
+
+    for _, entity in pairs(allCopiesOf(entity2)) do
+      local position = entity:get('position')
+      position.x = position.x + newVX2 * dt
+      position.y = position.y + newVY2 * dt
+    end
   end
 end
 
