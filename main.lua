@@ -34,9 +34,11 @@ require('components.Type')
 require('components.OnMap')
 require('components.Size')
 require('components.ParticleEmitter')
+require('components.HealthBarFlag')
 
 -- entities
 local Player   = require('entities.Player')
+local HealthBar = require('entities.HealthBar')
 local Asteroid = require('entities.Asteroid')
 
 -- systems
@@ -54,6 +56,7 @@ local TtlSystem            = require('systems.TtlSystem')
 local InputSystem          = require('systems.InputSystem')
 local ParticleSystem       = require('systems.ParticleSystem')
 local ParticleDrawSystem   = require('systems.ParticleDrawSystem')
+local HealthBarSystem      = require('systems.HealthBarSystem')
 
 engine = Engine()
 
@@ -65,6 +68,7 @@ function love.load(arg)
 
   -- starting entities
   local player = Player({ keymap = keymaps.playerOne })
+  local healthBar = HealthBar({ player = player })
   local playerPosition = player:get('position')
   camera:lookAt(playerPosition.x, playerPosition.y)
 
@@ -80,10 +84,12 @@ function love.load(arg)
   engine:addSystem(CameraSystem())
   engine:addSystem(TtlSystem())
   engine:addSystem(ParticleSystem())
+  engine:addSystem(HealthBarSystem())
   engine:addSystem(DrawSystem(), 'draw')
   engine:addSystem(ParticleDrawSystem(), 'draw')
 
   engine:addEntity(player)
+  engine:addEntity(healthBar)
   require('loaders.loadAsteroids')()
   -- rock = Asteroid({ size = 'large' })
   -- engine:addEntity(rock)

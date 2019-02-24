@@ -1,4 +1,3 @@
-local buildEntity = require('helpers.buildEntity')
 local buildSprite = require('helpers.buildSprite')
 local moveOffMap  = require('helpers.moveOffMap')
 
@@ -65,7 +64,7 @@ local function Player(arg)
       }),
       Rotation(0),
       Physics(),
-      Health(3, 0),
+      Health(12, 0),
       OnMap()
     })
     for _, orientation in pairs({ 'x', 'y', 'corner '}) do
