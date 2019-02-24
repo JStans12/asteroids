@@ -50,7 +50,10 @@ local function Player(arg)
   })
 
   if arg.parent then
-    player:add(OffMap(arg.position))
+    player:addMultiple({
+      OffMap(arg.orientation),
+      Sprite()
+    })
   else
     player:addMultiple({
       Controllable(arg.keymap, 0),
@@ -65,8 +68,8 @@ local function Player(arg)
       Health(3, 0),
       OnMap()
     })
-    for _, position in pairs({ 'x', 'y', 'corner '}) do
-      local child = Player({ parent = player, position = position })
+    for _, orientation in pairs({ 'x', 'y', 'corner '}) do
+      local child = Player({ parent = player, orientation = orientation })
       engine:addEntity(child)
       moveOffMap(child)
     end

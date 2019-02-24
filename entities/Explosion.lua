@@ -38,7 +38,10 @@ local function Explosion(arg)
   })
 
   if arg.parent then
-    explosion:add(OffMap(arg.position))
+    explosion:addMultiple({
+      OffMap(arg.orientation),
+      Sprite()
+    })
   else
     explosion:addMultiple({
       Sprite(sprite.spriteSheet, sprite.frames, sprite.currentFrame, sprite.size),
@@ -48,8 +51,8 @@ local function Explosion(arg)
       Ttl(60),
       OnMap()
     })
-    for _, position in pairs({ 'x', 'y', 'corner '}) do
-      local child = Explosion({ parent = explosion, position = position, playerPosition = arg.playerPosition })
+    for _, orientation in pairs({ 'x', 'y', 'corner '}) do
+      local child = Explosion({ parent = explosion, orientation = orientation, playerPosition = arg.playerPosition })
       engine:addEntity(child)
       moveOffMap(child)
     end

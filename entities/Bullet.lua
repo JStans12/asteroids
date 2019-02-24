@@ -51,7 +51,10 @@ local function Bullet(arg)
   })
 
   if arg.parent then
-    bullet:add(OffMap(arg.position))
+    bullet:addMultiple({
+      OffMap(arg.position),
+      Sprite()
+    })
   else
     bullet:addMultiple({
       Physics(0, 0, speedX, speedY),

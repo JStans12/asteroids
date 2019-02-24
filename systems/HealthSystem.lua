@@ -4,14 +4,10 @@ local Explosion = require('entities.Explosion')
 local Asteroid = require('entities.Asteroid')
 local ParticleEmissionSite = require('entities.ParticleEmissionSite')
 local startOrContinueAnimation = require('helpers.startOrContinueAnimation')
+local selfOrParent = require('helpers.selfOrParent')
 
 function HealthSystem:requires()
   return { 'health' }
-end
-
-local function selfOrParent(entity)
-  if entity:has('onMap') then return entity end
-  return entity:getParent()
 end
 
 local function newAsteroidConfigs(entity)
@@ -68,15 +64,11 @@ local function spawnSmallerAsteroids(entity)
     for _, config in pairs(configs) do
       local asteroid = Asteroid({
         size = config.size,
-        coords = { x = config.x, y = config.y }
+        position = { x = config.x, y = config.y }
       })
       engine:addEntity(asteroid)
     end
   end
-end
-
-local function pointParticle()
-  love.graphics.points(1, 1)
 end
 
 local function spawnParticleEmissionSite(entity)
@@ -85,8 +77,12 @@ local function spawnParticleEmissionSite(entity)
   local hitbox = targetEntity:get('hitbox')
   local distribution = hitbox.radius * 2
 
+  local function pointParticle()
+    love.graphics.points(1, 1)
+  end
+
   local particleEmissionSite = ParticleEmissionSite({
-    coords = { x = position.x, y = position.y },
+    position = { x = position.x, y = position.y },
     distribution = { x = distribution, y = distribution, amount = hitbox.radius },
     renderFunction = pointParticle
   })
@@ -104,15 +100,10 @@ function HealthSystem:update()
         spawnSmallerAsteroids(entity)
         spawnParticleEmissionSite(entity)
       end
-      local position
-      if entity:has('offMap') then
-        parent = entity:getParent()
-        position = parent:get('position')
-        engine:removeEntity(parent, true)
-      else
-        position = entity:get('position')
-        engine:removeEntity(entity, true)
-      end
+      local targetEntity = selfOrParent(entity)
+      local position = targetEntity:get('position')
+      engine:removeEntity(targetEntity, true)
+
       if type.value == 'player' then
         local explosion = Explosion({ playerPosition = position })
         engine:addEntity(explosion)

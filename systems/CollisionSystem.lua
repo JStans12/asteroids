@@ -2,6 +2,7 @@ local CollisionSystem = class('CollisionSystem', System)
 local checkCollision  = require('helpers.checkCollision')
 local startOrContinueAnimation = require('helpers.startOrContinueAnimation')
 local allCopiesOf = require('helpers.allCopiesOf')
+local selfOrParent = require('helpers.selfOrParent')
 
 function CollisionSystem:requires()
   return { 'position', 'hitbox' }
@@ -12,19 +13,10 @@ local function bounce(entity1, entity2, dt)
     local hitbox1   = entity1:get('hitbox')
     local hitbox2   = entity2:get('hitbox')
 
-    local physics1, physics2
-    if entity1:has('offMap') then
-      local parent1 = entity1:getParent()
-      physics1 = parent1:get('physics')
-    else
-      physics1 = entity1:get('physics')
-    end
-    if entity2:has('offMap') then
-      local parent2 = entity2:getParent()
-      physics2 = parent2:get('physics')
-    else
-      physics2 = entity2:get('physics')
-    end
+    local target1 = selfOrParent(entity1)
+    local target2 = selfOrParent(entity2)
+    local physics1 = target1:get('physics')
+    local physics2 = target2:get('physics')
 
     local vxTotal = physics1.vx - physics2.vx
     local vyTotal = physics1.vy - physics2.vy
@@ -54,13 +46,9 @@ end
 
 local function hit(entities)
   for _, entity in pairs(entities) do
-    local health
-    if entity:has('offMap') then
-      local parent = entity:getParent()
-      health = parent:get('health')
-    else
-      health = entity:get('health')
-    end
+
+    local targetEntity = selfOrParent(entity)
+    local health = targetEntity:get('health')
 
     if health.hitCooldown == 0 then
       health.hitCooldown = 50

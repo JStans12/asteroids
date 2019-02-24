@@ -28,17 +28,17 @@ local function ParticleEmissionSite(arg)
   particleEmissionSite:initialize()
   particleEmissionSite:addMultiple({
     ParticleEmitter(pSystem, false, arg.distribution.amount),
-    Position(arg.coords.x, arg.coords.y),
+    Position(arg.position.x, arg.position.y),
     Ttl(30),
     Type('particleEmissionSite')
   })
 
   if arg.parent then
-    particleEmissionSite:add(OffMap(arg.position))
+    particleEmissionSite:add(OffMap(arg.orientation))
   else
     particleEmissionSite:add(OnMap())
-    for _, position in pairs({ 'x', 'y', 'corner' }) do
-      local child = ParticleEmissionSite({ parent = particleEmissionSite, position = position, renderFunction = arg.renderFunction, coords = arg.coords, distribution = arg.distribution })
+    for _, orientation in pairs({ 'x', 'y', 'corner' }) do
+      local child = ParticleEmissionSite({ parent = particleEmissionSite, orientation = orientation, renderFunction = arg.renderFunction, position = arg.position, distribution = arg.distribution })
       engine:addEntity(child)
       moveOffMap(child)
     end

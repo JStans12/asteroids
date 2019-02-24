@@ -70,7 +70,7 @@ local function configure(arg)
   if arg.parent then return buildChild(arg.parent) end
 
   local hitbox         = config.hitbox[arg.size]
-  local position       = arg.coords or randomPosition()
+  local position       = arg.position or randomPosition()
   local animation      = config.animation
   local health         = config.health[arg.size]
   local offMap         = nil
@@ -109,7 +109,10 @@ local function Asteroid(arg)
   })
 
   if arg.parent then
-    asteroid:add(OffMap(arg.position))
+    asteroid:addMultiple({
+      OffMap(arg.orientation),
+      Sprite()
+    })
   else
     asteroid:addMultiple({
       Animation(animation.sequences),
@@ -121,8 +124,8 @@ local function Asteroid(arg)
       OnMap(),
       Size(arg.size)
     })
-    for _, position in pairs({ 'x', 'y', 'corner' }) do
-      local child = Asteroid({ parent = asteroid, position = position })
+    for _, orientation in pairs({ 'x', 'y', 'corner' }) do
+      local child = Asteroid({ parent = asteroid, orientation = orientation })
       engine:addEntity(child)
       moveOffMap(child)
     end
