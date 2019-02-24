@@ -23,9 +23,9 @@ local function Explosion(arg)
     spriteSheet = 'explosion.png',
     dimensions = {
       rows    = 1,
-      columns = 2,
-      height  = 32,
-      width   = 32
+      columns = 4,
+      height  = 64,
+      width   = 64
     },
     currentFrame = 1
   })
@@ -43,9 +43,9 @@ local function Explosion(arg)
     explosion:addMultiple({
       Sprite(sprite.spriteSheet, sprite.frames, sprite.currentFrame, sprite.size),
       Animation({
-        explode = { frames = { 1, 2 }, frameDelay = .05 }
+        explode = { frames = { 1, 2, 3, 4 }, frameDelay = .14 }
       }),
-      Ttl(10),
+      Ttl(60),
       OnMap()
     })
     for _, position in pairs({ 'x', 'y', 'corner '}) do
