@@ -24,18 +24,12 @@ return {
   hitbox = {
     large = {
       radius = 58,
-      bounce = true,
-      priority = 2
     },
     medium = {
       radius = 28,
-      bounce = true,
-      priority = 2
     },
     small = {
       radius = 14,
-      bounce = true,
-      priority = 2
     }
   },
   physics = {

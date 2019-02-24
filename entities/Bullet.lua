@@ -46,7 +46,7 @@ local function Bullet(arg)
   bullet:initialize()
   bullet:addMultiple({
     Position(playerPosition.x, playerPosition.y),
-    Hitbox(2, false, 2),
+    Hitbox(2),
     Type('bullet')
   })
 

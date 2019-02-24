@@ -45,7 +45,7 @@ local function Player(arg)
   player:initialize()
   player:addMultiple({
     Position(100, 100),
-    Hitbox(15, false, 101),
+    Hitbox(15),
     Type('player')
   })
 
