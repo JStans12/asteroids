@@ -32,6 +32,7 @@ require('components.OffMap')
 require('components.Ttl')
 require('components.Type')
 require('components.OnMap')
+require('components.Size')
 
 -- entities
 local Player   = require('entities.Player')

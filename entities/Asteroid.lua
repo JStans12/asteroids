@@ -12,6 +12,7 @@ local Animation,
       Rotation,
       Sprite,
       StaticRotation,
+      Size,
       Type =
       Component.load({
         'animation',
@@ -24,6 +25,7 @@ local Animation,
         'rotation',
         'sprite',
         'staticRotation',
+        'size',
         'type'
       })
 
@@ -68,7 +70,7 @@ local function configure(arg)
   if arg.parent then return buildChild(arg.parent) end
 
   local hitbox         = config.hitbox[arg.size]
-  local position       = randomPosition()
+  local position       = arg.coords or randomPosition()
   local animation      = config.animation
   local health         = config.health[arg.size]
   local offMap         = nil
@@ -116,7 +118,8 @@ local function Asteroid(arg)
       Rotation(rotation.direction),
       Sprite(sprite.spriteSheet, sprite.frames, sprite.currentFrame, sprite.size),
       StaticRotation(staticRotation.direction, staticRotation.speed),
-      OnMap()
+      OnMap(),
+      Size(arg.size)
     })
     for _, position in pairs({ 'x', 'y', 'corner' }) do
       local child = Asteroid({ parent = asteroid, position = position })
