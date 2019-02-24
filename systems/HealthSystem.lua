@@ -4,7 +4,6 @@ local Explosion = require('entities.Explosion')
 local Asteroid = require('entities.Asteroid')
 local ParticleEmissionSite = require('entities.ParticleEmissionSite')
 local startOrContinueAnimation = require('helpers.startOrContinueAnimation')
-local selfOrParent = require('helpers.selfOrParent')
 
 function HealthSystem:requires()
   return { 'health' }
@@ -54,8 +53,7 @@ local function newAsteroidConfigs(entity)
 end
 
 local function spawnSmallerAsteroids(entity)
-  local targetEntity = selfOrParent(entity)
-  local size = targetEntity:get('size')
+  local size = entity:get('size')
 
   if not (size.value == 'small') then
 
@@ -72,9 +70,8 @@ local function spawnSmallerAsteroids(entity)
 end
 
 local function spawnParticleEmissionSite(entity)
-  local targetEntity = selfOrParent(entity)
-  local position = targetEntity:get('position')
-  local hitbox = targetEntity:get('hitbox')
+  local position = entity:get('position')
+  local hitbox = entity:get('hitbox')
   local distribution = hitbox.radius * 2
 
   local function pointParticle()
@@ -94,22 +91,23 @@ function HealthSystem:update()
   for _, entity in pairs(self.targets) do
     local health = entity:get('health')
     local type = entity:get('type')
+    local position = entity:get('position')
 
     if health.value <= 0 then
       if type.value == 'asteroid' then
         spawnSmallerAsteroids(entity)
         spawnParticleEmissionSite(entity)
       end
-      local targetEntity = selfOrParent(entity)
-      local position = targetEntity:get('position')
-      engine:removeEntity(targetEntity, true)
 
       if type.value == 'player' then
         local explosion = Explosion({ playerPosition = position })
         engine:addEntity(explosion)
         startOrContinueAnimation(explosion, 'explode')
       end
+
+      engine:removeEntity(entity, true)
     end
+
     if health.hitCooldown > 0 then
       health.hitCooldown = health.hitCooldown - 1
     end
