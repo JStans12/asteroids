@@ -27,7 +27,7 @@ local function HealthBar(arg)
   healthBar:initialize()
   healthBar:addMultiple({
     Position(0, 0),
-    Sprite(sprite.spriteSheet, sprite.frames, sprite.currentFrame, sprite.size),
+    Sprite(sprite.spriteSheet, sprite.frames, sprite.currentFrame, sprite.size, .7),
     HealthBarFlag(),
     Type('healthBar')
   })

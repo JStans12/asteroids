@@ -15,8 +15,8 @@ function HealthBarSystem:update()
 
     local wWidth, wHeight = love.window.getMode()
 
-    position.x = playerPosition.x + wWidth / 2 - 85
-    position.y = playerPosition.y - wHeight / 2 + 40
+    position.x = playerPosition.x + wWidth / 2 - 65
+    position.y = playerPosition.y - wHeight / 2 + 35
 
     sprite.currentFrame = playerHealth.value + 1
   end

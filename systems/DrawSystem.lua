@@ -27,8 +27,8 @@ function DrawSystem:draw()
       position.x,
       position.y,
       math.rad(rotation.direction),
-      1,
-      1,
+      sprite.scale or 1,
+      sprite.scale or 1,
       sprite.size.height / 2,
       sprite.size.width / 2
     )
