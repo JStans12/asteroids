@@ -20,7 +20,7 @@ local function ParticleEmissionSite(arg)
   pCanvas:renderTo(arg.renderFunction);
 
   pSystem = love.graphics.newParticleSystem(pCanvas, arg.distribution.amount)
-  pSystem:setParticleLifetime(.1, .4)
+  pSystem:setParticleLifetime(.1, .3)
   pSystem:setRadialAcceleration(200, 400)
   pSystem:setEmissionArea('ellipse', arg.distribution.x, arg.distribution.y, 0, true)
 

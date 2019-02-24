@@ -72,10 +72,10 @@ end
 local function spawnParticleEmissionSite(entity)
   local position = entity:get('position')
   local hitbox = entity:get('hitbox')
-  local distribution = hitbox.radius * 2
+  local distribution = hitbox.radius
 
   local function pointParticle()
-    love.graphics.points(1, 1)
+    love.graphics.circle('fill', 0, 0, 3)
   end
 
   local particleEmissionSite = ParticleEmissionSite({

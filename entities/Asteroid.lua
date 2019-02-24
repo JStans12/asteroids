@@ -44,8 +44,6 @@ local function randomPosition()
   return {
     x = math.random(-pConfig.x, pConfig.x),
     y = math.random(-pConfig.y, pConfig.y)
-    -- x = 450,
-    -- y = 450
   }
 end
 
