@@ -33,6 +33,7 @@ require('components.Ttl')
 require('components.Type')
 require('components.OnMap')
 require('components.Size')
+require('components.ParticleEmitter')
 
 -- entities
 local Player   = require('entities.Player')
@@ -51,6 +52,8 @@ local OnMapSystem          = require('systems.OnMapSystem')
 local GridSystem           = require('systems.GridSystem')
 local TtlSystem            = require('systems.TtlSystem')
 local InputSystem          = require('systems.InputSystem')
+local ParticleSystem       = require('systems.ParticleSystem')
+local ParticleDrawSystem   = require('systems.ParticleDrawSystem')
 
 engine = Engine()
 
@@ -76,7 +79,9 @@ function love.load(arg)
   engine:addSystem(AnimationSystem())
   engine:addSystem(CameraSystem())
   engine:addSystem(TtlSystem())
+  engine:addSystem(ParticleSystem())
   engine:addSystem(DrawSystem(), 'draw')
+  engine:addSystem(ParticleDrawSystem(), 'draw')
 
   engine:addEntity(player)
   require('loaders.loadAsteroids')()

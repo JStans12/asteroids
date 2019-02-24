@@ -2,6 +2,7 @@ local HealthSystem = class('HealthSystem', System)
 local tableLength = require('helpers.tableLength')
 local Explosion = require('entities.Explosion')
 local Asteroid = require('entities.Asteroid')
+local ParticleEmissionSite = require('entities.ParticleEmissionSite')
 local startOrContinueAnimation = require('helpers.startOrContinueAnimation')
 
 function HealthSystem:requires()
@@ -74,13 +75,35 @@ local function spawnSmallerAsteroids(entity)
   end
 end
 
+local function pointParticle()
+  love.graphics.points(1, 1)
+end
+
+local function spawnParticleEmissionSite(entity)
+  local targetEntity = selfOrParent(entity)
+  local position = targetEntity:get('position')
+  local hitbox = targetEntity:get('hitbox')
+  local distribution = hitbox.radius * 2
+
+  local particleEmissionSite = ParticleEmissionSite({
+    coords = { x = position.x, y = position.y },
+    distribution = { x = distribution, y = distribution, amount = hitbox.radius },
+    renderFunction = pointParticle
+  })
+
+  engine:addEntity(particleEmissionSite)
+end
+
 function HealthSystem:update()
   for _, entity in pairs(self.targets) do
     local health = entity:get('health')
     local type = entity:get('type')
 
     if health.value <= 0 then
-      if type.value == 'asteroid' then spawnSmallerAsteroids(entity) end
+      if type.value == 'asteroid' then
+        spawnSmallerAsteroids(entity)
+        spawnParticleEmissionSite(entity)
+      end
       local position
       if entity:has('offMap') then
         parent = entity:getParent()
