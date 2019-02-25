@@ -44,19 +44,16 @@ local function bounce(entity1, entity2, dt)
   end
 end
 
-local function hit(entities)
-  for _, entity in pairs(entities) do
+local function hit(entity, amount)
+  local targetEntity = selfOrParent(entity)
+  local health = targetEntity:get('health')
 
-    local targetEntity = selfOrParent(entity)
-    local health = targetEntity:get('health')
-
-    if health.hitCooldown == 0 then
-      health.hitCooldown = 50
-      health.value = health.value - 1
-      if entity:has('animation') then
-        if entity:get('animation').sequences.hit then
-          startOrContinueAnimation(entity, 'hit')
-        end
+  if health.hitCooldown == 0 then
+    health.hitCooldown = 50
+    health.value = health.value - amount
+    if entity:has('animation') then
+      if entity:get('animation').sequences.hit then
+        startOrContinueAnimation(entity, 'hit')
       end
     end
   end
@@ -70,13 +67,16 @@ local function handleCollision(entity1, entity2, collisionPoint, dt)
     bounce(entity1, entity2, dt)
   elseif type1 == 'player' and type2 == 'asteroid' then
     bounce(entity1, entity2, dt)
-    hit({ entity1 })
+    hit(entity1, 5)
   elseif type1 == 'asteroid' and type2 == 'player' then
     bounce(entity1, entity2, dt)
-    hit({ entity2 })
-  elseif type1 == 'asteroid' and type2 == 'bullet' or
-    type1 == 'bullet' and type2 == 'asteroid' then
-    hit({ entity1, entity2 })
+    hit(entity2, 5)
+  elseif type1 == 'asteroid' and type2 == 'bullet'then
+    hit(entity1, 1)
+    hit(entity2, 1)
+  elseif type1 == 'bullet' and type2 == 'asteroid' then
+    hit(entity1, 1)
+    hit(entity2, 1)
   end
 end
 
