@@ -7,3 +7,6 @@
 [submodule "lib/hump"]
 	path = lib/hump
 	url = git@github.com:vrld/hump.git
+[submodule "lib/suit"]
+	path = lib/suit
+	url = git@github.com:vrld/suit.git

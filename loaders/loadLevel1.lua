@@ -1,0 +1,50 @@
+local MoveSystem           = require('systems.MoveSystem')
+local StaticRotationSystem = require('systems.StaticRotationSystem')
+local CollisionSystem      = require('systems.CollisionSystem')
+local HealthSystem         = require('systems.HealthSystem')
+local AnimationSystem      = require('systems.AnimationSystem')
+local DrawSystem           = require('systems.DrawSystem')
+local CameraSystem         = require('systems.CameraSystem')
+local OffMapSystem         = require('systems.OffMapSystem')
+local OnMapSystem          = require('systems.OnMapSystem')
+local TtlSystem            = require('systems.TtlSystem')
+local InputSystem          = require('systems.InputSystem')
+local ParticleSystem       = require('systems.ParticleSystem')
+local ParticleDrawSystem   = require('systems.ParticleDrawSystem')
+local HealthBarSystem      = require('systems.HealthBarSystem')
+
+local Player   = require('entities.Player')
+local HealthBar = require('entities.HealthBar')
+local Asteroid = require('entities.Asteroid')
+
+local function loadLevel1()
+  engine = Engine()
+  map = { size = { width = 300, height = 300 } }
+
+  engine:addSystem(InputSystem())
+  engine:addSystem(OnMapSystem())
+  engine:addSystem(OffMapSystem())
+  engine:addSystem(MoveSystem())
+  engine:addSystem(StaticRotationSystem())
+  engine:addSystem(CollisionSystem())
+  engine:addSystem(HealthSystem())
+  engine:addSystem(AnimationSystem())
+  engine:addSystem(CameraSystem())
+  engine:addSystem(TtlSystem())
+  engine:addSystem(ParticleSystem())
+  engine:addSystem(HealthBarSystem())
+  engine:addSystem(DrawSystem(), 'draw')
+  engine:addSystem(ParticleDrawSystem(), 'draw')
+
+  local keymaps      = require('config.keymaps')
+  local player = Player({ keymap = keymaps.playerOne })
+  local healthBar = HealthBar({ player = player })
+  local playerPosition = player:get('position')
+  camera:lookAt(playerPosition.x, playerPosition.y)
+
+  engine:addEntity(player)
+  engine:addEntity(healthBar)
+  require('loaders.loadAsteroids')()
+end
+
+return loadLevel1

@@ -1,3 +1,6 @@
+local hasValue = require('helpers.hasValue')
+local suit = require('lib.suit')
+
 -- setup lovetoys
 local lovetoys = require('lib.lovetoys.lovetoys')
 lovetoys.initialize({ globals = true, debug = true })
@@ -8,16 +11,14 @@ love.window.setMode(750, 500, {
 })
 -- love.window.setFullscreen(true)
 
--- camera
 local Camera = require('lib.hump.camera')
+
+-- globals
+engine = nil -- engine is reset in each loader
 camera = Camera(0, 0)
+inspect = require('lib.inspect')
+globalConfig = {}
 
--- helpers
-inspect  = require('lib.inspect')
-local getInput = require('helpers.getInput')
-local hasValue = require('helpers.hasValue')
-
--- register components
 require('components.Position')
 require('components.Physics')
 require('components.Sprite')
@@ -36,63 +37,10 @@ require('components.Size')
 require('components.ParticleEmitter')
 require('components.HealthBarFlag')
 
--- entities
-local Player   = require('entities.Player')
-local HealthBar = require('entities.HealthBar')
-local Asteroid = require('entities.Asteroid')
-
--- systems
-local MoveSystem           = require('systems.MoveSystem')
-local StaticRotationSystem = require('systems.StaticRotationSystem')
-local CollisionSystem      = require('systems.CollisionSystem')
-local HealthSystem         = require('systems.HealthSystem')
-local AnimationSystem      = require('systems.AnimationSystem')
-local DrawSystem           = require('systems.DrawSystem')
-local CameraSystem         = require('systems.CameraSystem')
-local OffMapSystem         = require('systems.OffMapSystem')
-local OnMapSystem          = require('systems.OnMapSystem')
-local GridSystem           = require('systems.GridSystem')
-local TtlSystem            = require('systems.TtlSystem')
-local InputSystem          = require('systems.InputSystem')
-local ParticleSystem       = require('systems.ParticleSystem')
-local ParticleDrawSystem   = require('systems.ParticleDrawSystem')
-local HealthBarSystem      = require('systems.HealthBarSystem')
-
-engine = Engine()
-
-local keymaps      = require('config.keymaps')
-map = { size = { width = 300, height = 300 } }
-
 function love.load(arg)
   math.randomseed(os.time())
 
-  -- starting entities
-  local player = Player({ keymap = keymaps.playerOne })
-  local healthBar = HealthBar({ player = player })
-  local playerPosition = player:get('position')
-  camera:lookAt(playerPosition.x, playerPosition.y)
-
-  -- setup engine
-  engine:addSystem(InputSystem())
-  engine:addSystem(OnMapSystem())
-  engine:addSystem(OffMapSystem())
-  engine:addSystem(MoveSystem())
-  engine:addSystem(StaticRotationSystem())
-  engine:addSystem(CollisionSystem())
-  engine:addSystem(HealthSystem())
-  engine:addSystem(AnimationSystem())
-  engine:addSystem(CameraSystem())
-  engine:addSystem(TtlSystem())
-  engine:addSystem(ParticleSystem())
-  engine:addSystem(HealthBarSystem())
-  engine:addSystem(DrawSystem(), 'draw')
-  engine:addSystem(ParticleDrawSystem(), 'draw')
-
-  engine:addEntity(player)
-  engine:addEntity(healthBar)
-  require('loaders.loadAsteroids')()
-  -- rock = Asteroid({ size = 'large' })
-  -- engine:addEntity(rock)
+  require('loaders.loadMenu')()
 
   if hasValue(arg, 'hitbox') then
     local HitboxDrawSystem = require('systems.HitboxDrawSystem')
@@ -100,6 +48,7 @@ function love.load(arg)
   end
 
   if hasValue(arg, 'grid') then
+    local GridSystem = require('systems.GridSystem')
     engine:addSystem(GridSystem(), 'draw')
   end
 end
