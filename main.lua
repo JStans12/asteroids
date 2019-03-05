@@ -1,6 +1,3 @@
-local hasValue = require('helpers.hasValue')
-local suit = require('lib.suit')
-
 -- setup lovetoys
 local lovetoys = require('lib.lovetoys.lovetoys')
 lovetoys.initialize({ globals = true, debug = true })
@@ -9,7 +6,7 @@ lovetoys.initialize({ globals = true, debug = true })
 love.window.setMode(750, 500, {
   highdpi = true
 })
--- love.window.setFullscreen(true)
+love.window.setFullscreen(true)
 
 local Camera = require('lib.hump.camera')
 
@@ -39,18 +36,9 @@ require('components.HealthBarFlag')
 
 function love.load(arg)
   math.randomseed(os.time())
+  globalConfig = arg
 
   require('loaders.loadMenu')()
-
-  if hasValue(arg, 'hitbox') then
-    local HitboxDrawSystem = require('systems.HitboxDrawSystem')
-    engine:addSystem(HitboxDrawSystem(), 'draw')
-  end
-
-  if hasValue(arg, 'grid') then
-    local GridSystem = require('systems.GridSystem')
-    engine:addSystem(GridSystem(), 'draw')
-  end
 end
 
 function love.update(dt)

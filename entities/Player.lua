@@ -43,7 +43,7 @@ local function Player(arg)
   local player = Entity(arg.parent)
   player:initialize()
   player:addMultiple({
-    Position(100, 100),
+    Position(0, 0),
     Hitbox(15),
     Type('player')
   })
@@ -55,7 +55,7 @@ local function Player(arg)
     })
   else
     player:addMultiple({
-      Controllable(arg.keymap, 0),
+      Controllable(arg.keymap, 60),
       CameraFollow(50),
       Sprite(sprite.spriteSheet, sprite.frames, sprite.currentFrame, sprite.size),
       Animation({

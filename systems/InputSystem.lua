@@ -82,16 +82,16 @@ function InputSystem:update()
 
     if pressedKeys[keymap['left']] and pressedKeys[keymap['right']] then
     elseif pressedKeys[keymap['left']] then
-      rotation.direction = rotation.direction - 1
+      rotation.direction = rotation.direction - 1.3
     elseif pressedKeys[keymap['right']] then
-      rotation.direction = rotation.direction + 1
+      rotation.direction = rotation.direction + 1.3
     end
 
     if controllable.shootCooldown == 0 then
       if pressedKeys[keymap['shoot']] then
         local bullet = Bullet({ player = entity })
         engine:addEntity(bullet)
-        controllable.shootCooldown = controllable.shootCooldown + 60
+        controllable.shootCooldown = controllable.shootCooldown + 50
       end
     else
       controllable.shootCooldown = controllable.shootCooldown - 1

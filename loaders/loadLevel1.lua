@@ -1,3 +1,5 @@
+local hasValue = require('helpers.hasValue')
+
 local MoveSystem           = require('systems.MoveSystem')
 local StaticRotationSystem = require('systems.StaticRotationSystem')
 local CollisionSystem      = require('systems.CollisionSystem')
@@ -19,7 +21,8 @@ local Asteroid = require('entities.Asteroid')
 
 local function loadLevel1()
   engine = Engine()
-  map = { size = { width = 300, height = 300 } }
+  local wWidth, wHeight = love.window.getMode()
+  map = { size = { width = wWidth * 1.25, height = wHeight * 1.25 } }
 
   engine:addSystem(InputSystem())
   engine:addSystem(OnMapSystem())
@@ -45,6 +48,16 @@ local function loadLevel1()
   engine:addEntity(player)
   engine:addEntity(healthBar)
   require('loaders.loadAsteroids')()
+
+  if hasValue(globalConfig, 'hitbox') then
+    local HitboxDrawSystem = require('systems.HitboxDrawSystem')
+    engine:addSystem(HitboxDrawSystem(), 'draw')
+  end
+
+  if hasValue(globalConfig, 'grid') then
+    local GridSystem = require('systems.GridSystem')
+    engine:addSystem(GridSystem(), 'draw')
+  end
 end
 
 return loadLevel1

@@ -5,11 +5,29 @@ function MenuDrawSystem:requires()
 end
 
 function MenuDrawSystem:draw()
+  local wWidth, wHeight = love.window.getMode()
+
+  local largeFont = love.graphics.newFont("slkscre.ttf", 84)
+  love.graphics.setFont(largeFont)
+
+  local x, y = love.mouse.getPosition()
   love.graphics.printf(
-    'Press Space to Start',
-    0,
-    0,
-    0,
+    'ASTEROIDS',
+    0 - wWidth / 2,
+    -200,
+    wWidth,
+    'center'
+  )
+
+  local mediumFont = love.graphics.newFont("slkscre.ttf", 48)
+  love.graphics.setFont(mediumFont)
+
+  local x, y = love.mouse.getPosition()
+  love.graphics.printf(
+    '-- Press Space to Start --',
+    0 - wWidth / 2,
+    100,
+    wWidth,
     'center'
   )
 

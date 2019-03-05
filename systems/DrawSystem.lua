@@ -1,3 +1,5 @@
+local hasValue = require('helpers.hasValue')
+
 local DrawSystem = class('DrawSystem', System)
 
 function DrawSystem:requires()
@@ -13,7 +15,9 @@ function DrawSystem:draw()
       local parent = entity:getParent()
       sprite = parent:get('sprite')
       rotation = parent:get('rotation')
-      love.graphics.setColor(.25, .75, 1)
+      if hasValue(globalConfig, 'grid') then
+        love.graphics.setColor(.25, .75, 1)
+      end
     else
       sprite = entity:get('sprite')
       rotation = entity:get('rotation')
