@@ -103,6 +103,10 @@ function HealthSystem:update()
         local explosion = Explosion({ playerPosition = position })
         engine:addEntity(explosion)
         startOrContinueAnimation(explosion, 'explode')
+
+        globalState.state = 'gameOver'
+        globalState.transition = 60
+        engine:addSystem(require('systems.MenuSystem')())
       end
 
       engine:removeEntity(entity, true)

@@ -7,6 +7,9 @@ function DrawSystem:requires()
 end
 
 function DrawSystem:draw()
+  local wWidth, wHeight = love.window.getMode()
+  local cx,cy = camera:position()
+
   for _, entity in pairs(self.targets) do
     local position = entity:get('position')
 
@@ -38,6 +41,30 @@ function DrawSystem:draw()
     )
 
     love.graphics.setColor(1, 1, 1)
+  end
+
+  if globalState.state == 'gameOver' and globalState.transition == 0 then
+    local mediumFont = love.graphics.newFont("slkscre.ttf", 48)
+    love.graphics.setFont(mediumFont)
+
+    love.graphics.printf(
+      'GAME OVER',
+      cx - wWidth / 2,
+      cy - 50,
+      wWidth,
+      'center'
+    )
+
+    local smallFont = love.graphics.newFont("slkscre.ttf", 36)
+    love.graphics.setFont(smallFont)
+
+    love.graphics.printf(
+      '-- Press Space to Restart --',
+      cx - wWidth / 2,
+      cy + 50,
+      wWidth,
+      'center'
+    )
   end
 end
 

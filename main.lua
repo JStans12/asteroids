@@ -15,6 +15,7 @@ engine = nil -- engine is reset in each loader
 camera = Camera(0, 0)
 inspect = require('lib.inspect')
 globalConfig = {}
+globalState = { transition = 0 }
 
 require('components.Position')
 require('components.Physics')

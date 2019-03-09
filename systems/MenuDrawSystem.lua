@@ -22,7 +22,6 @@ function MenuDrawSystem:draw()
   local mediumFont = love.graphics.newFont("slkscre.ttf", 48)
   love.graphics.setFont(mediumFont)
 
-  local x, y = love.mouse.getPosition()
   love.graphics.printf(
     '-- Press Space to Start --',
     0 - wWidth / 2,

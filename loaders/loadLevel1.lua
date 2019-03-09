@@ -15,12 +15,15 @@ local ParticleSystem       = require('systems.ParticleSystem')
 local ParticleDrawSystem   = require('systems.ParticleDrawSystem')
 local HealthBarSystem      = require('systems.HealthBarSystem')
 local WinSystem            = require('systems.WinSystem')
+local GlobalStateSystem    = require('systems.GlobalStateSystem')
 
 local Player   = require('entities.Player')
 local HealthBar = require('entities.HealthBar')
 local Asteroid = require('entities.Asteroid')
 
 local function loadLevel1()
+  globalState.state = 'level1'
+
   engine = Engine()
   local wWidth, wHeight = love.window.getMode()
   map = { size = { width = wWidth * 1.25, height = wHeight * 1.25 } }
@@ -38,6 +41,7 @@ local function loadLevel1()
   engine:addSystem(ParticleSystem())
   engine:addSystem(HealthBarSystem())
   engine:addSystem(WinSystem())
+  engine:addSystem(GlobalStateSystem())
   engine:addSystem(DrawSystem(), 'draw')
   engine:addSystem(ParticleDrawSystem(), 'draw')
 
