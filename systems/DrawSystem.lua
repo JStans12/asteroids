@@ -43,12 +43,36 @@ function DrawSystem:draw()
     love.graphics.setColor(1, 1, 1)
   end
 
-  if globalState.state == 'gameOver' and globalState.transition == 0 then
+  if globalState.state == 'gameOver' then
     local mediumFont = love.graphics.newFont("slkscre.ttf", 48)
     love.graphics.setFont(mediumFont)
 
     love.graphics.printf(
       'GAME OVER',
+      cx - wWidth / 2,
+      cy - 50,
+      wWidth,
+      'center'
+    )
+
+    local smallFont = love.graphics.newFont("slkscre.ttf", 36)
+    love.graphics.setFont(smallFont)
+
+    love.graphics.printf(
+      '-- Press Space to Restart --',
+      cx - wWidth / 2,
+      cy + 50,
+      wWidth,
+      'center'
+    )
+  end
+
+  if globalState.state == 'gameWon' then
+    local mediumFont = love.graphics.newFont("slkscre.ttf", 48)
+    love.graphics.setFont(mediumFont)
+
+    love.graphics.printf(
+      'YOU WIN!',
       cx - wWidth / 2,
       cy - 50,
       wWidth,

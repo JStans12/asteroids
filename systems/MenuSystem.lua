@@ -9,7 +9,7 @@ end
 
 function MenuSystem:update(dt)
   local downKeys = getInput()
-  if hasValue(downKeys, 'space') then
+  if hasValue(downKeys, 'space') and globalState.transition == 0 then
     loadLevel1()
   end
 end

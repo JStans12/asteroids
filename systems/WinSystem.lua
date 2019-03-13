@@ -19,11 +19,10 @@ function WinSystem:update()
   end
 
   if playerIsAlive and not asteroidsExist then
-    print('winner')
-  end
-
-  if not playerIsAlive then
-    print('loser')
+    globalState.state = 'gameWon'
+    globalState.transition = 60
+    engine:addSystem(require('systems.MenuSystem')())
+    engine:stopSystem('WinSystem')
   end
 end
 
